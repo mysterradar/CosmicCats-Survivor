@@ -192,7 +192,7 @@ func apply_skill(skill_id):
 func spawn_plasma_blade():
 	var b = blade_scene.instantiate()
 	add_child(b)
-	b.z_index = -20
+	b.z_index = 2
 	b.position = Vector2.ZERO
 
 func spawn_orbiting_sardine():

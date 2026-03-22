@@ -10,23 +10,17 @@ z_index = 12
 script = ExtResource("1_script")
 
 [node name="OuterGlow" type="Polygon2D" parent="."]
-modulate = Color(0, 0.75, 1.0, 0.28)
-scale = Vector2(1.25, 1.25)
+modulate = Color(0, 0.75, 1.0, 0.14)
+scale = Vector2(1.15, 1.15)
 polygon = PackedVector2Array(0, -60, 15, -45, 60, 0, 15, 45, 0, 60, -15, 45, -60, 0, -15, -45)
 
 [node name="MainBlade" type="Polygon2D" parent="."]
-color = Color(0.05, 0.88, 1.0, 0.82)
+color = Color(0.05, 0.88, 1.0, 0.60)
 polygon = PackedVector2Array(0, -60, 5, -10, 60, 0, 5, 10, 0, 60, -5, 10, -60, 0, -5, -10)
 
-[node name="EdgeLine" type="Line2D" parent="."]
-default_color = Color(0.6, 1.0, 1.0, 0.6)
-width = 1.5
-closed = true
-points = PackedVector2Array(0, -60, 5, -10, 60, 0, 5, 10, 0, 60, -5, 10, -60, 0, -5, -10)
-
 [node name="InnerCore" type="Polygon2D" parent="."]
-scale = Vector2(0.3, 0.3)
-color = Color(1, 1, 1, 1.0)
+scale = Vector2(0.28, 0.28)
+color = Color(1, 1, 1, 0.95)
 polygon = PackedVector2Array(0, -60, 60, 0, 0, 60, -60, 0)
 
 [node name="Sparks" type="CPUParticles2D" parent="."]

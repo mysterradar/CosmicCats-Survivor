@@ -1,0 +1,323 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/MainMenu.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/ShopUI.tscn" id="2_shop"]
+[ext_resource type="PackedScene" path="res://scenes/SettingsUI.tscn" id="3_settings"]
+[ext_resource type="PackedScene" path="res://scenes/MissionUI.tscn" id="4_missions"]
+[ext_resource type="PackedScene" path="res://scenes/StatsUI.tscn" id="5_stats"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.05, 0.05, 0.15, 1)
+border_width_bottom = 2
+border_color = Color(0, 0.8, 1, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.01, 0.05, 1)
+
+[node name="Carousel" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -50.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnemyDisplay" type="Polygon2D" parent="Carousel"]
+position = Vector2(0, -50)
+scale = Vector2(5, 5)
+color = Color(1, 0.2, 0.2, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="LevelInfo" type="VBoxContainer" parent="Carousel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 100.0
+offset_right = 200.0
+offset_bottom = 250.0
+grow_horizontal = 2
+theme_override_constants/separation = 10
+
+[node name="LevelName" type="Label" parent="Carousel/LevelInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "VAGUE 1"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Carousel/LevelInfo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 24
+text = "DÉBLOQUÉ"
+horizontal_alignment = 1
+
+[node name="RewardLabel" type="Label" parent="Carousel/LevelInfo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Récompense : 100 💎"
+horizontal_alignment = 1
+
+[node name="BtnPrev" type="Button" parent="Carousel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -40.0
+offset_right = -240.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "<"
+
+[node name="BtnNext" type="Button" parent="Carousel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 240.0
+offset_top = -40.0
+offset_right = 320.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = ">"
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -320.0
+offset_right = 150.0
+offset_bottom = -220.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "ATTAQUER"
+
+[node name="UpgradeButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -150.0
+offset_right = 330.0
+offset_bottom = -50.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "AMÉLIORER"
+
+[node name="MissionButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -150.0
+offset_right = -50.0
+offset_bottom = -50.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "MISSIONS"
+
+[node name="TopBar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="CheeseLabel" type="Label" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = -25.0
+offset_right = 330.0
+offset_bottom = 25.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Croquettes : 0"
+vertical_alignment = 1
+
+[node name="SettingsButton" type="Button" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -35.0
+offset_right = -20.0
+offset_bottom = 35.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "⚙"
+
+[node name="StatsButton" type="Button" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -35.0
+offset_right = -110.0
+offset_bottom = 35.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "📊"
+
+[node name="AchievementsButton" type="Button" parent="TopBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -35.0
+offset_right = -230.0
+offset_bottom = 35.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "🏆"
+
+[node name="UILYR" type="CanvasLayer" parent="."]
+
+[node name="ShopUI" parent="UILYR" instance=ExtResource("2_shop")]
+visible = false
+
+[node name="SettingsUI" parent="UILYR" instance=ExtResource("3_settings")]
+visible = false
+
+[node name="MissionUI" parent="UILYR" instance=ExtResource("4_missions")]
+visible = false
+
+[node name="StatsUI" parent="UILYR" instance=ExtResource("5_stats")]
+visible = false
+
+[node name="AchievementsPanel" type="Control" parent="UILYR"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="UILYR/AchievementsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.533)
+
+[node name="Panel" type="Panel" parent="UILYR/AchievementsPanel"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="UILYR/AchievementsPanel/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 12.0
+offset_bottom = 48.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "🏆 Succès"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UILYR/AchievementsPanel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 56.0
+offset_right = -12.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="UILYR/AchievementsPanel/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="CloseButton" type="Button" parent="UILYR/AchievementsPanel/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -52.0
+offset_right = -20.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "✕ Fermer"
+
+[connection signal="pressed" from="TopBar/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Carousel/BtnPrev" to="." method="_on_prev_pressed"]
+[connection signal="pressed" from="Carousel/BtnNext" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="UpgradeButton" to="." method="_on_upgrade_button_pressed"]
+[connection signal="pressed" from="MissionButton" to="." method="_on_mission_button_pressed"]
+[connection signal="pressed" from="TopBar/StatsButton" to="." method="_on_stats_button_pressed"]
+[connection signal="pressed" from="TopBar/AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="UILYR/AchievementsPanel/Panel/CloseButton" to="UILYR/AchievementsPanel" method="hide"]

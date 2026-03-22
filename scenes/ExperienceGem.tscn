@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ExperienceGem.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gem"]
+radius = 25.0
+
+[node name="ExperienceGem" type="Area2D" groups=["gems"]]
+z_index = 2
+script = ExtResource("1_script")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0, 0.8, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_gem")
+
+[node name="Trail" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 8
+lifetime = 0.25
+one_shot = false
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2(0, 1)
+spread = 60.0
+gravity = Vector2(0, -20)
+initial_velocity_min = 20.0
+initial_velocity_max = 60.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.67, 1.0, 0.27, 1.0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

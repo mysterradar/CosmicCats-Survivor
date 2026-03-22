@@ -55,7 +55,7 @@ func setup_world_visuals():
 	# Sécurité pour le chargement des planètes
 	var planet_idx = ((level - 1) % 8) + 1
 	var path = "res://assets/sprites/planet_stage%d.png" % planet_idx
-	if ResourceLoader.exists(path):
+	if planet_sprite and ResourceLoader.exists(path):
 		planet_sprite.texture = load(path)
 		planet_sprite.scale = Vector2(0.4, 0.4) # Plus petit
 		planet_sprite.position = Vector2(150, 150) # En haut à gauche

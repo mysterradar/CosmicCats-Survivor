@@ -1,0 +1,119 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/GameScene.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/VirtualJoystick.tscn" id="3_joystick"]
+[ext_resource type="PackedScene" path="res://scenes/UpgradeUI.tscn" id="6_upgrade"]
+[ext_resource type="PackedScene" path="res://scenes/GameOverUI.tscn" id="7_gameover"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="4_icon"]
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="SpaceBackground" type="ColorRect" parent="BackgroundLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Stars" type="CPUParticles2D" parent="BackgroundLayer"]
+position = Vector2(360, 640)
+amount = 100
+lifetime = 5.0
+preprocess = 5.0
+emission_shape = 3
+emission_rect_extents = Vector2(400, 700)
+gravity = Vector2(0, 0)
+scale_amount_min = 1.0
+scale_amount_max = 2.0
+color = Color(1, 1, 1, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(360, 640)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+offset_left = 30.0
+offset_top = 100.0
+offset_right = 210.0
+offset_bottom = 140.0
+theme_override_font_sizes/font_size = 32
+text = "Score: 0"
+
+[node name="KibbleLabel" type="Label" parent="CanvasLayer"]
+offset_left = 30.0
+offset_top = 150.0
+offset_right = 300.0
+offset_bottom = 190.0
+theme_override_colors/font_color = Color(1, 0.6, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = "Croquettes: 0"
+
+[node name="ComboLabel" type="Label" parent="CanvasLayer"]
+offset_left = 30.0
+offset_top = 200.0
+offset_right = 300.0
+offset_bottom = 240.0
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = ""
+visible = false
+
+[node name="LevelLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -160.0
+offset_top = 100.0
+offset_right = -20.0
+offset_bottom = 140.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "LV: 1"
+horizontal_alignment = 2
+
+[node name="BossHealthBar" type="ProgressBar" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -60.0
+offset_right = 200.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+show_percentage = false
+visible = false
+
+[node name="XPBar" type="ProgressBar" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = 50.0
+grow_horizontal = 2
+show_percentage = false
+
+[node name="VirtualJoystick" parent="CanvasLayer" instance=ExtResource("3_joystick")]
+
+[node name="UpgradeUI" parent="CanvasLayer" instance=ExtResource("6_upgrade")]
+visible = false
+
+[node name="GameOverUI" parent="CanvasLayer" instance=ExtResource("7_gameover")]
+visible = false
+
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

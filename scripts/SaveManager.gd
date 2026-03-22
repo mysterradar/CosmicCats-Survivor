@@ -38,31 +38,30 @@ func load_game():
 			var json_string = file.get_as_text()
 			var parse_result = JSON.parse_string(json_string)
 			if parse_result is Dictionary:
-				# On fusionne pour éviter les clés manquantes
+				# Fusion top-level (écrase les sous-dicts — la migration ci-dessous DOIT rester après)
 				for key in parse_result.keys():
 					data[key] = parse_result[key]
 				# Cas particulier du renommage cheese -> kibble
 				if parse_result.has("cosmic_cheese"):
 					data["cosmic_kibble"] = parse_result["cosmic_cheese"]
-				# Migration récursive perm_upgrades
-				var default_pu = {
-					"health_bonus":0,"damage_bonus":0,"speed_bonus":0,
-					"fire_rate_bonus":0,"shield_bonus":0,"xp_radius_bonus":0
-				}
-				if not data.has("perm_upgrades"):
-					data["perm_upgrades"] = default_pu
-				else:
-					for k in default_pu:
-						if not data["perm_upgrades"].has(k):
-							data["perm_upgrades"][k] = default_pu[k]
-				# Migration stats
-				var default_stats = {"kills":0,"games_played":0,"best_score":0,"play_time":0.0}
+				file.close()
+				# ⚠️ Migration APRÈS la fusion : patch les clés manquantes dans les sous-dicts
+				# Ne PAS déplacer ces blocs avant la boucle de fusion ci-dessus.
+				for k in data["perm_upgrades"]:
+					if not data["perm_upgrades"].has(k):
+						data["perm_upgrades"][k] = 0
+				for k in ["health_bonus","damage_bonus","speed_bonus","fire_rate_bonus","shield_bonus","xp_radius_bonus"]:
+					if not data["perm_upgrades"].has(k):
+						data["perm_upgrades"][k] = 0
 				if not data.has("stats"):
-					data["stats"] = default_stats
+					data["stats"] = {"kills":0,"games_played":0,"best_score":0,"play_time":0.0}
 				else:
-					for k in default_stats:
-						if not data["stats"].has(k):
-							data["stats"][k] = default_stats[k]
+					for k in ["kills","games_played","best_score"]:
+						if not data["stats"].has(k): data["stats"][k] = 0
+					if not data["stats"].has("play_time"):
+						data["stats"]["play_time"] = 0.0
+					else:
+						data["stats"]["play_time"] = float(data["stats"]["play_time"])
 	else:
 		save_game()
 

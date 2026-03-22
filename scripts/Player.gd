@@ -84,14 +84,6 @@ func setup_ship_visual(lv: int):
 	sprite.scale = s
 	ship_visual.add_child(sprite)
 
-	# Anneau bouclier
-	shield_ring = Line2D.new()
-	shield_ring.default_color = Color(0.2, 0.9, 1.0, 0.85)
-	shield_ring.width = 3.0
-	shield_ring.points = _sv_ellipse(42, 42, 28)
-	shield_ring.closed = true
-	shield_ring.visible = shield_active
-	ship_visual.add_child(shield_ring)
 	# Anneau bouclier (masqué par défaut)
 	shield_ring = Line2D.new()
 	shield_ring.default_color = Color(0.2, 0.9, 1.0, 0.85)

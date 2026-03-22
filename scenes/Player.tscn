@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_player"]
+radius = 35.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_magnet"]
+radius = 400.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 10
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_script")
+
+[node name="ShipVisual" type="Node2D" parent="."]
+
+[node name="Trail" type="CPUParticles2D" parent="ShipVisual"]
+position = Vector2(0, 10)
+amount = 25
+lifetime = 0.5
+speed_scale = 1.2
+direction = Vector2(0, 1)
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+color = Color(0, 0.8, 1, 0.3)
+
+[node name="Thruster" type="CPUParticles2D" parent="ShipVisual"]
+position = Vector2(0, 20)
+amount = 40
+lifetime = 0.2
+speed_scale = 2.0
+direction = Vector2(0, 1)
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0, 1, 1, 1)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0, 1, 0, 1)
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 40.0
+offset_bottom = -75.0
+value = 100.0
+show_percentage = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_player")
+
+[node name="Magnet" type="Area2D" parent="." groups=["player_magnet"]]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Magnet"]
+shape = SubResource("CircleShape2D_magnet")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="WeaponTimer" type="Timer" parent="."]
+wait_time = 0.35
+autostart = true
+
+[connection signal="timeout" from="WeaponTimer" to="." method="_on_weapon_timer_timeout"]

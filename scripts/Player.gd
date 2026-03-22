@@ -361,14 +361,16 @@ func take_damage(amount: float):
 		return
 	current_health -= amount
 	if health_bar: health_bar.value = current_health
+	if current_health <= 0:
+		is_dead = true
 	ship_visual.modulate = Color(5, 5, 5)
 	await get_tree().create_timer(0.05).timeout
+	if not is_instance_valid(self) or not is_inside_tree(): return
 	# Ne pas écraser la couleur bleue du bouclier si rechargé pendant le flash
 	if not shield_active:
 		ship_visual.modulate = Color(1, 1, 1)
-	if current_health <= 0:
-		is_dead = true
-		get_tree().reload_current_scene()
+	if is_dead:
+		emit_signal("died")
 
 func collect_kibble(amount: int):
 	run_kibble += amount

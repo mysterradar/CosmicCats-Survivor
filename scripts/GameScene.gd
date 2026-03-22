@@ -73,6 +73,9 @@ func setup_world_visuals():
 
 func _process(delta):
 	time_elapsed += delta
+	# Stats cumulatives
+	if SaveManager and SaveManager.data.has("stats"):
+		SaveManager.data["stats"]["play_time"] += delta
 	if combo_timer > 0:
 		combo_timer -= delta
 		if combo_timer <= 0: reset_combo()
@@ -116,12 +119,21 @@ func spawn_boss():
 
 func _on_boss_died():
 	update_score(10000)
+	_finalize_stats(true)
 	if game_over_ui:
 		game_over_ui.open(true, score, player.run_kibble)
 
 func _on_player_died():
+	_finalize_stats(false)
 	if game_over_ui:
 		game_over_ui.open(false, score, player.run_kibble)
+
+func _finalize_stats(_victory: bool):
+	if not SaveManager or not SaveManager.data.has("stats"): return
+	var s = SaveManager.data["stats"]
+	s["games_played"] += 1
+	s["best_score"] = max(s.get("best_score", 0), score)
+	SaveManager.save_game()
 
 func _on_spawn_timer_timeout():
 	spawn_enemy()
@@ -166,6 +178,9 @@ func _on_enemy_died():
 	update_combo_ui()
 	if player and combo_count > 5:
 		player.collect_kibble(int(combo_count / 5))
+	# Stats
+	if SaveManager and SaveManager.data.has("stats"):
+		SaveManager.data["stats"]["kills"] += 1
 
 func update_combo_ui():
 	if combo_count > 1:

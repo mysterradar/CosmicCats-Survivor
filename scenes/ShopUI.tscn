@@ -1,0 +1,129 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ShopUI.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shop"]
+bg_color = Color(0.05, 0.05, 0.1, 1)
+border_width_all = 4
+border_color = Color(1, 0.6, 0, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[node name="ShopUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(600, 820)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -410.0
+offset_right = 300.0
+offset_bottom = 410.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_shop")
+
+[node name="TopBar" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 12.0
+offset_bottom = 120.0
+grow_horizontal = 2
+
+[node name="Title" type="Label" parent="Panel/TopBar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "🏪 BOUTIQUE"
+horizontal_alignment = 1
+
+[node name="KibbleLabel" type="Label" parent="Panel/TopBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+text = "🍪 0 Croquettes"
+horizontal_alignment = 1
+
+[node name="TabBar" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 120.0
+offset_bottom = 178.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="TabCombat" type="Button" parent="Panel/TabBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚔️ Combat"
+
+[node name="TabDefense" type="Button" parent="Panel/TabBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🛡️ Défense"
+
+[node name="TabMobility" type="Button" parent="Panel/TabBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⚡ Mobilité"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 186.0
+offset_right = -12.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemGrid" type="GridContainer" parent="Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="BackButton" type="Button" parent="Panel"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -82.0
+offset_right = -50.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "◀ RETOUR"
+
+[connection signal="pressed" from="Panel/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="Panel/TabBar/TabCombat" to="." method="_on_tab_pressed" binds=[0]]
+[connection signal="pressed" from="Panel/TabBar/TabDefense" to="." method="_on_tab_pressed" binds=[1]]
+[connection signal="pressed" from="Panel/TabBar/TabMobility" to="." method="_on_tab_pressed" binds=[2]]

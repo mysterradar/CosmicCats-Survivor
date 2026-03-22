@@ -69,7 +69,7 @@ func _physics_process(delta):
 		if shield_timer >= shield_cooldown:
 			shield_active = true
 			shield_timer = 0.0
-			ship_visual.modulate = Color(0.5, 0.8, 2.0)  # feedback bleu
+			if ship_visual: ship_visual.modulate = Color(0.5, 0.8, 2.0)  # feedback bleu
 
 	# Gestion des missiles (uniquement si débloqués)
 	if missile_unlocked:

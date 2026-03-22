@@ -13,7 +13,7 @@ extends Node2D
 @onready var upgrade_ui = $CanvasLayer/UpgradeUI
 @onready var boss_health_bar = $CanvasLayer/BossHealthBar
 @onready var game_over_ui = $CanvasLayer/GameOverUI
-@onready var planet_sprite = $BackgroundLayer/PlanetSprite
+@onready var planet_sprite = get_node_or_null("BackgroundLayer/PlanetSprite")
 @onready var space_bg = $BackgroundLayer/SpaceBackground
 
 var enemy_scene = preload("res://scenes/Enemy.tscn")

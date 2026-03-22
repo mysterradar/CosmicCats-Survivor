@@ -11,7 +11,7 @@ func _ready():
 func _physics_process(delta):
 	if not player: return
 	var dist = global_position.distance_to(player.global_position)
-	var should_attract = dist < 200 or player.get("has_vacuum", false)
+	var should_attract = dist < 200 or bool(player.get("has_vacuum"))
 
 	# Guard bidirectionnel : ne set emitting que si l'état change
 	if should_attract != attracted:

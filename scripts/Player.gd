@@ -58,205 +58,182 @@ func _ready():
 	setup_ship_visual(level)
 
 func setup_ship_visual(lv: int):
-	# Supprimer les anciens visuels
 	for child in ship_visual.get_children():
 		if child is Polygon2D or child is Line2D: child.queue_free()
 	ship_visual.modulate = Color(1, 1, 1)
-
-	if lv < 5:
-		_draw_ship_tier1()
-	elif lv < 10:
-		_draw_ship_tier2()
-	elif lv < 15:
-		_draw_ship_tier3()
-	else:
-		_draw_ship_tier4()
+	if lv < 5: _draw_ship_tier1()
+	elif lv < 10: _draw_ship_tier2()
+	elif lv < 15: _draw_ship_tier3()
+	else: _draw_ship_tier4()
 
 func _draw_ship_tier1():
-	# Tier 1 : Chasseur Félin bleu
-	_add_ship_body(Color("#2244aa"), PackedVector2Array([
-		Vector2(0,-30), Vector2(18,15), Vector2(12,30), Vector2(-12,30), Vector2(-18,15)
-	]))
-	_add_ship_wings(Color("#1a3388"), [
-		PackedVector2Array([Vector2(-18,15), Vector2(-28,24), Vector2(-12,30)]),
-		PackedVector2Array([Vector2(18,15),  Vector2(28,24),  Vector2(12,30)])
-	])
-	_add_cat_cockpit(Vector2(0,-6), 13.0, Color("#0d1f55"), Color("#4488ff"), Color("#4488ff"),
-	                 Color("#ffcc99"), Color("#1a6600"))
-	_add_ship_cannons([Vector2(0,-32)], Color("#3355bb"))
-	_add_thrusters([Vector2(0,30)], Color("#4466ff"))
-	_add_cat_ears(Vector2(0,-6), Color("#1a3388"), Color("#ff99cc"))
+	# Fighter Scout — compact mech-cat, dark navy + cyan accents
+	var H = Color("#141840"); var M = Color("#1a2258")
+	var W = Color("#182080"); var C = Color(0.0, 0.8, 1.0, 0.5)
+	var EI = Color("#ff88cc")
+	_svp(H, PackedVector2Array([Vector2(0,-32),Vector2(12,8),Vector2(9,30),Vector2(-9,30),Vector2(-12,8)]))
+	_svp(M, PackedVector2Array([Vector2(0,-26),Vector2(8,6),Vector2(6,22),Vector2(-6,22),Vector2(-8,6)]))
+	_svp(W, PackedVector2Array([Vector2(-12,8),Vector2(-30,22),Vector2(-22,30),Vector2(-9,30)]))
+	_svp(W, PackedVector2Array([Vector2(12,8), Vector2(30,22), Vector2(22,30), Vector2(9,30)]))
+	_svp(M, PackedVector2Array([Vector2(-4,-28),Vector2(0,-38),Vector2(4,-28)]))
+	# Panneaux œil angulaires
+	_svp(Color(0.0,0.45,0.8,0.9), PackedVector2Array([Vector2(-9,-10),Vector2(-3,-14),Vector2(-2,-6),Vector2(-8,-4)]))
+	_svp(Color(0.0,0.45,0.8,0.9), PackedVector2Array([Vector2(9,-10), Vector2(3,-14), Vector2(2,-6), Vector2(8,-4)]))
+	_svp(Color(0.4,0.9,1.0,0.6),  PackedVector2Array([Vector2(-8,-12),Vector2(-5,-14),Vector2(-4,-10),Vector2(-7,-9)]))
+	_svp(Color(0.4,0.9,1.0,0.6),  PackedVector2Array([Vector2(8,-12), Vector2(5,-14), Vector2(4,-10), Vector2(7,-9)]))
+	# Oreilles (fins structurelles)
+	_svp(M,  PackedVector2Array([Vector2(-7,-26),Vector2(-13,-38),Vector2(-4,-28)]))
+	_svp(M,  PackedVector2Array([Vector2(7,-26), Vector2(13,-38), Vector2(4,-28)]))
+	_svp(EI, PackedVector2Array([Vector2(-7,-27),Vector2(-11,-35),Vector2(-5,-28)]))
+	_svp(EI, PackedVector2Array([Vector2(7,-27), Vector2(11,-35), Vector2(5,-28)]))
+	_svp(M, PackedVector2Array([Vector2(-2.5,-30),Vector2(2.5,-30),Vector2(2,-42),Vector2(-2,-42)]))
+	_svp(Color(0.0,0.6,1.0,0.7), _sv_ellipse_at(5, 3.5, 8, Vector2(0, 30)))
+	_svl(PackedVector2Array([Vector2(0,-32),Vector2(12,8),Vector2(9,30),Vector2(-9,30),Vector2(-12,8)]), C, 1.0)
+	_svl(PackedVector2Array([Vector2(-12,8),Vector2(-30,22),Vector2(-22,30),Vector2(-9,30)]), C, 1.0)
+	_svl(PackedVector2Array([Vector2(12,8), Vector2(30,22), Vector2(22,30), Vector2(9,30)]),  C, 1.0)
 
 func _draw_ship_tier2():
-	# Tier 2 : Intercepteur Cosmique violet
-	_add_ship_body(Color("#6622bb"), PackedVector2Array([
-		Vector2(0,-35), Vector2(22,14), Vector2(16,38), Vector2(-16,38), Vector2(-22,14)
-	]))
-	_add_ship_wings(Color("#4411aa"), [
-		PackedVector2Array([Vector2(-22,14), Vector2(-36,26), Vector2(-16,38)]),
-		PackedVector2Array([Vector2(22,14),  Vector2(36,26),  Vector2(16,38)])
-	])
-	_add_cat_cockpit(Vector2(0,-8), 15.0, Color("#2d0a66"), Color("#9955ff"), Color("#bb88ff"),
-	                 Color("#f0bb88"), Color("#0066aa"))
-	_add_cat_ears(Vector2(0,-8), Color("#4411aa"), Color("#ffaadd"))
-	_add_ship_cannons([Vector2(-7,-38), Vector2(7,-38)], Color("#8844ff"))
-	_add_thrusters([Vector2(-10,38), Vector2(10,38)], Color("#cc88ff"))
+	# Cruiser Escort — medium, 4 ear fins + side cannons + wing pods
+	var H = Color("#141840"); var M = Color("#1e2870")
+	var W = Color("#1a2890"); var C = Color(0.0, 0.8, 1.0, 0.55)
+	var EI = Color("#ff88cc"); var POD = Color("#252e90")
+	_svp(H, PackedVector2Array([Vector2(0,-38),Vector2(16,6),Vector2(12,36),Vector2(-12,36),Vector2(-16,6)]))
+	_svp(M, PackedVector2Array([Vector2(0,-32),Vector2(10,4),Vector2(8,28),Vector2(-8,28),Vector2(-10,4)]))
+	_svp(W,   PackedVector2Array([Vector2(-16,6), Vector2(-38,20),Vector2(-32,36),Vector2(-12,36)]))
+	_svp(W,   PackedVector2Array([Vector2(16,6),  Vector2(38,20), Vector2(32,36), Vector2(12,36)]))
+	_svp(POD, PackedVector2Array([Vector2(-16,6), Vector2(-26,14),Vector2(-20,28),Vector2(-12,28)]))
+	_svp(POD, PackedVector2Array([Vector2(16,6),  Vector2(26,14), Vector2(20,28), Vector2(12,28)]))
+	_svp(H, PackedVector2Array([Vector2(-38,18),Vector2(-42,22),Vector2(-38,30),Vector2(-34,26)]))
+	_svp(H, PackedVector2Array([Vector2(38,18), Vector2(42,22), Vector2(38,30), Vector2(34,26)]))
+	_svp(Color(0.0,0.45,0.8,0.9), PackedVector2Array([Vector2(-11,-12),Vector2(-4,-17),Vector2(-3,-8), Vector2(-10,-5)]))
+	_svp(Color(0.0,0.45,0.8,0.9), PackedVector2Array([Vector2(11,-12), Vector2(4,-17), Vector2(3,-8),  Vector2(10,-5)]))
+	_svp(Color(0.4,0.9,1.0,0.6),  PackedVector2Array([Vector2(-10,-14),Vector2(-6,-17),Vector2(-5,-12),Vector2(-9,-10)]))
+	_svp(Color(0.4,0.9,1.0,0.6),  PackedVector2Array([Vector2(10,-14), Vector2(6,-17), Vector2(5,-12), Vector2(9,-10)]))
+	_svp(M,  PackedVector2Array([Vector2(-10,-30),Vector2(-18,-46),Vector2(-4,-34)]))
+	_svp(M,  PackedVector2Array([Vector2(10,-30), Vector2(18,-46), Vector2(4,-34)]))
+	_svp(EI, PackedVector2Array([Vector2(-10,-32),Vector2(-15,-43),Vector2(-6,-33)]))
+	_svp(EI, PackedVector2Array([Vector2(10,-32), Vector2(15,-43), Vector2(6,-33)]))
+	_svp(M, PackedVector2Array([Vector2(-16,2),Vector2(-22,-6),Vector2(-18,6)]))
+	_svp(M, PackedVector2Array([Vector2(16,2), Vector2(22,-6), Vector2(18,6)]))
+	_svp(M, PackedVector2Array([Vector2(-3,-34),  Vector2(3,-34),  Vector2(2,-46),  Vector2(-2,-46)]))
+	_svp(M, PackedVector2Array([Vector2(-14,-34), Vector2(-10,-34),Vector2(-11,-46),Vector2(-13,-46)]))
+	_svp(M, PackedVector2Array([Vector2(14,-34),  Vector2(10,-34), Vector2(11,-46), Vector2(13,-46)]))
+	_svp(Color(0.0,0.6,1.0,0.7), _sv_ellipse_at(5, 3.5, 8, Vector2(-8, 36)))
+	_svp(Color(0.0,0.6,1.0,0.7), _sv_ellipse_at(5, 3.5, 8, Vector2(8, 36)))
+	_svl(PackedVector2Array([Vector2(0,-38),Vector2(16,6),Vector2(12,36),Vector2(-12,36),Vector2(-16,6)]), C, 1.0)
+	_svl(PackedVector2Array([Vector2(-16,6),Vector2(-38,20),Vector2(-32,36),Vector2(-12,36)]), C, 1.0)
+	_svl(PackedVector2Array([Vector2(16,6), Vector2(38,20), Vector2(32,36), Vector2(12,36)]),  C, 1.0)
 
 func _draw_ship_tier3():
-	# Tier 3 : Destroyer Stellaire cyan
-	_add_ship_body(Color("#116677"), PackedVector2Array([
-		Vector2(0,-42), Vector2(28,10), Vector2(22,44), Vector2(-22,44), Vector2(-28,10)
-	]))
-	_add_ship_wings(Color("#0a5566"), [
-		PackedVector2Array([Vector2(-28,10), Vector2(-46,30), Vector2(-22,44)]),
-		PackedVector2Array([Vector2(28,10),  Vector2(46,30),  Vector2(22,44)])
-	])
-	# Ailettes secondaires
-	_add_ship_wings(Color("#0d6677"), [
-		PackedVector2Array([Vector2(-20,0), Vector2(-36,12), Vector2(-28,22)]),
-		PackedVector2Array([Vector2(20,0),  Vector2(36,12),  Vector2(28,22)])
-	])
-	_add_cat_cockpit(Vector2(0,-10), 17.0, Color("#083344"), Color("#44ffee"), Color("#44ffee"),
-	                 Color("#eecc99"), Color("#008866"))
-	_add_cat_ears(Vector2(0,-10), Color("#0a5566"), Color("#aaffee"))
-	_add_ship_cannons([Vector2(-7,-44), Vector2(0,-46), Vector2(7,-44)], Color("#22ddcc"))
-	_add_thrusters([Vector2(-16,44), Vector2(0,44), Vector2(16,44)], Color("#44ffee"))
+	# Heavy Cruiser Command — large, 6 cannons, engine pods, secondary wings
+	var H = Color("#0e1238"); var M = Color("#1a246a")
+	var W = Color("#14207a"); var C = Color(0.0, 0.87, 1.0, 0.65)
+	var EI = Color("#ff88cc"); var ENG = Color("#101840")
+	_svp(H, PackedVector2Array([Vector2(0,-46),Vector2(20,4),Vector2(16,44),Vector2(-16,44),Vector2(-20,4)]))
+	_svp(M, PackedVector2Array([Vector2(0,-38),Vector2(13,2),Vector2(10,34),Vector2(-10,34),Vector2(-13,2)]))
+	_svp(W, PackedVector2Array([Vector2(-20,4), Vector2(-50,22),Vector2(-42,44),Vector2(-16,44)]))
+	_svp(W, PackedVector2Array([Vector2(20,4),  Vector2(50,22), Vector2(42,44), Vector2(16,44)]))
+	_svp(Color("#12196a"), PackedVector2Array([Vector2(-20,4),Vector2(-34,14),Vector2(-28,36),Vector2(-16,36)]))
+	_svp(Color("#12196a"), PackedVector2Array([Vector2(20,4), Vector2(34,14), Vector2(28,36), Vector2(16,36)]))
+	_svp(W, PackedVector2Array([Vector2(-16,-8),Vector2(-32,2), Vector2(-24,14),Vector2(-18,8)]))
+	_svp(W, PackedVector2Array([Vector2(16,-8), Vector2(32,2),  Vector2(24,14), Vector2(18,8)]))
+	_svp(ENG, PackedVector2Array([Vector2(-46,18),Vector2(-52,24),Vector2(-48,38),Vector2(-42,32)]))
+	_svp(ENG, PackedVector2Array([Vector2(46,18), Vector2(52,24), Vector2(48,38), Vector2(42,32)]))
+	_svp(Color(0.0,0.6,1.0,0.7), _sv_ellipse_at(4, 2.5, 8, Vector2(-47, 36)))
+	_svp(Color(0.0,0.6,1.0,0.7), _sv_ellipse_at(4, 2.5, 8, Vector2(47, 36)))
+	_svp(Color(0.0,0.5,0.85,0.9), PackedVector2Array([Vector2(-13,-14),Vector2(-5,-20),Vector2(-4,-9), Vector2(-12,-5)]))
+	_svp(Color(0.0,0.5,0.85,0.9), PackedVector2Array([Vector2(13,-14), Vector2(5,-20), Vector2(4,-9),  Vector2(12,-5)]))
+	_svp(Color(0.4,0.9,1.0,0.6),  PackedVector2Array([Vector2(-12,-16),Vector2(-7,-20),Vector2(-6,-14),Vector2(-11,-11)]))
+	_svp(Color(0.4,0.9,1.0,0.6),  PackedVector2Array([Vector2(12,-16), Vector2(7,-20), Vector2(6,-14), Vector2(11,-11)]))
+	_svp(M,  PackedVector2Array([Vector2(-12,-36),Vector2(-22,-56),Vector2(-4,-40)]))
+	_svp(M,  PackedVector2Array([Vector2(12,-36), Vector2(22,-56), Vector2(4,-40)]))
+	_svp(EI, PackedVector2Array([Vector2(-12,-38),Vector2(-18,-53),Vector2(-6,-40)]))
+	_svp(EI, PackedVector2Array([Vector2(12,-38), Vector2(18,-53), Vector2(6,-40)]))
+	for cx in [-14.0, 0.0, 14.0]:
+		_svp(M, PackedVector2Array([Vector2(cx-2.5,-40),Vector2(cx+2.5,-40),Vector2(cx+2,-54),Vector2(cx-2,-54)]))
+	_svp(M, PackedVector2Array([Vector2(-16,2),Vector2(-12,2),Vector2(-13,-10),Vector2(-15,-10)]))
+	_svp(M, PackedVector2Array([Vector2(16,2), Vector2(12,2), Vector2(13,-10), Vector2(15,-10)]))
+	for rx2 in [-12.0, 0.0, 12.0]:
+		_svp(Color(0.0,0.7,1.0,0.7), _sv_ellipse_at(4.5, 3, 8, Vector2(rx2, 44)))
+	_svl(PackedVector2Array([Vector2(0,-46),Vector2(20,4),Vector2(16,44),Vector2(-16,44),Vector2(-20,4)]), C, 1.2)
+	_svl(PackedVector2Array([Vector2(-20,4),Vector2(-50,22),Vector2(-42,44),Vector2(-16,44)]), C, 1.2)
+	_svl(PackedVector2Array([Vector2(20,4), Vector2(50,22), Vector2(42,44), Vector2(16,44)]),  C, 1.2)
+	var ml3 = Line2D.new(); ml3.default_color = Color(0.0,0.87,1.0,0.35); ml3.width = 1.0
+	ml3.points = PackedVector2Array([Vector2(0,-46), Vector2(0,44)]); ship_visual.add_child(ml3)
 
 func _draw_ship_tier4():
-	# Tier 4 : Cuirassé Royal or
-	_add_ship_body(Color("#aa7700"), PackedVector2Array([
-		Vector2(0,-48), Vector2(32,8), Vector2(26,48), Vector2(-26,48), Vector2(-32,8)
-	]))
-	_add_ship_wings(Color("#886600"), [
-		PackedVector2Array([Vector2(-32,8), Vector2(-54,30), Vector2(-26,48)]),
-		PackedVector2Array([Vector2(32,8),  Vector2(54,30),  Vector2(26,48)])
-	])
-	_add_ship_wings(Color("#775500"), [
-		PackedVector2Array([Vector2(-22,-4), Vector2(-44,8), Vector2(-34,18)]),
-		PackedVector2Array([Vector2(22,-4),  Vector2(44,8),  Vector2(34,18)])
-	])
-	_add_cat_cockpit(Vector2(0,-12), 20.0, Color("#5a3a00"), Color("#ffcc00"), Color("#ffcc00"),
-	                 Color("#f5cc99"), Color("#886600"))
-	_add_cat_ears(Vector2(0,-12), Color("#886600"), Color("#ffaadd"))
-	_add_crown(Vector2(0,-32))
-	_add_ship_cannons([Vector2(-10,-50), Vector2(-3,-52), Vector2(3,-52), Vector2(10,-50)], Color("#ffcc00"))
-	_add_thrusters([Vector2(-20,48), Vector2(0,50), Vector2(20,48)], Color("#ffee44"))
-	ship_visual.modulate = Color(1.25, 1.05, 0.5)  # glow doré
+	# Dreadnought Battleship — 3-section hull, purple+cyan glow, 5 cannons, radar
+	var H  = Color("#0a0e2a"); var M  = Color("#141880")
+	var W  = Color("#10147a"); var C  = Color(0.0, 0.87, 1.0, 0.7)
+	var PU = Color(0.53,0.33,0.87,0.5); var EI = Color("#ff66cc")
+	var FL = Color("#0d1166")
+	_svp(H, PackedVector2Array([Vector2(0,-54),Vector2(22,2),Vector2(18,50),Vector2(-18,50),Vector2(-22,2)]))
+	_svp(M, PackedVector2Array([Vector2(0,-46),Vector2(15,0),Vector2(12,40),Vector2(-12,40),Vector2(-15,0)]))
+	_svp(FL, PackedVector2Array([Vector2(-22,2),Vector2(-36,-4),Vector2(-34,18),Vector2(-22,22)]))
+	_svp(FL, PackedVector2Array([Vector2(22,2), Vector2(36,-4), Vector2(34,18), Vector2(22,22)]))
+	_svp(W, PackedVector2Array([Vector2(-22,2),Vector2(-60,24),Vector2(-52,50),Vector2(-18,50)]))
+	_svp(W, PackedVector2Array([Vector2(22,2), Vector2(60,24), Vector2(52,50), Vector2(18,50)]))
+	_svp(Color("#0e1570"), PackedVector2Array([Vector2(-22,2),Vector2(-38,12),Vector2(-34,42),Vector2(-18,42)]))
+	_svp(Color("#0e1570"), PackedVector2Array([Vector2(22,2), Vector2(38,12), Vector2(34,42), Vector2(18,42)]))
+	_svp(W, PackedVector2Array([Vector2(-18,-12),Vector2(-38,0),Vector2(-30,14),Vector2(-20,8)]))
+	_svp(W, PackedVector2Array([Vector2(18,-12), Vector2(38,0), Vector2(30,14), Vector2(20,8)]))
+	_svp(H, PackedVector2Array([Vector2(-58,20),Vector2(-64,26),Vector2(-60,44),Vector2(-54,38)]))
+	_svp(H, PackedVector2Array([Vector2(58,20), Vector2(64,26), Vector2(60,44), Vector2(54,38)]))
+	_svp(Color(0.53,0.33,0.87,0.7), _sv_ellipse_at(4, 3, 8, Vector2(-59, 42)))
+	_svp(Color(0.53,0.33,0.87,0.7), _sv_ellipse_at(4, 3, 8, Vector2(59, 42)))
+	_svp(Color(0.0,0.5,0.85,0.9),  PackedVector2Array([Vector2(-15,-16),Vector2(-6,-23),Vector2(-4,-10),Vector2(-13,-6)]))
+	_svp(Color(0.0,0.5,0.85,0.9),  PackedVector2Array([Vector2(15,-16), Vector2(6,-23), Vector2(4,-10), Vector2(13,-6)]))
+	_svp(Color(0.55,0.92,1.0,0.7), PackedVector2Array([Vector2(-14,-18),Vector2(-9,-23),Vector2(-7,-16),Vector2(-12,-12)]))
+	_svp(Color(0.55,0.92,1.0,0.7), PackedVector2Array([Vector2(14,-18), Vector2(9,-23), Vector2(7,-16), Vector2(12,-12)]))
+	_svp(M,  PackedVector2Array([Vector2(-14,-40),Vector2(-26,-62),Vector2(-4,-46)]))
+	_svp(M,  PackedVector2Array([Vector2(14,-40), Vector2(26,-62), Vector2(4,-46)]))
+	_svp(EI, PackedVector2Array([Vector2(-14,-42),Vector2(-22,-59),Vector2(-7,-44)]))
+	_svp(EI, PackedVector2Array([Vector2(14,-42), Vector2(22,-59), Vector2(7,-44)]))
+	for ax in [[-6.0,-54.0,-10.0,-66.0],[0.0,-54.0,0.0,-68.0],[6.0,-54.0,10.0,-66.0]]:
+		var ant = Line2D.new(); ant.default_color = Color(0.0,0.87,1.0,0.8); ant.width = 1.0
+		ant.points = PackedVector2Array([Vector2(ax[0],ax[1]),Vector2(ax[2],ax[3])])
+		ship_visual.add_child(ant)
+	var rad = Line2D.new(); rad.default_color = Color(0.53,0.33,0.87,0.35); rad.width = 1.0
+	rad.points = _sv_ellipse(18, 12, 16); rad.closed = true; rad.position = Vector2(0,-10)
+	ship_visual.add_child(rad)
+	for cx in [-18.0, -9.0, 0.0, 9.0, 18.0]:
+		_svp(M, PackedVector2Array([Vector2(cx-2.5,-46),Vector2(cx+2.5,-46),Vector2(cx+2,-62),Vector2(cx-2,-62)]))
+	_svp(M, PackedVector2Array([Vector2(-24,0),Vector2(-20,0),Vector2(-21,-14),Vector2(-23,-14)]))
+	_svp(M, PackedVector2Array([Vector2(24,0), Vector2(20,0), Vector2(21,-14), Vector2(23,-14)]))
+	for rx2 in [-18.0, -6.0, 6.0, 18.0]:
+		_svp(Color(0.53,0.33,0.87,0.8), _sv_ellipse_at(5, 3.5, 8, Vector2(rx2, 50)))
+	_svl(PackedVector2Array([Vector2(0,-54),Vector2(22,2),Vector2(18,50),Vector2(-18,50),Vector2(-22,2)]), C, 1.3)
+	_svl(PackedVector2Array([Vector2(-22,2),Vector2(-60,24),Vector2(-52,50),Vector2(-18,50)]), C, 1.3)
+	_svl(PackedVector2Array([Vector2(22,2), Vector2(60,24), Vector2(52,50), Vector2(18,50)]),  C, 1.3)
+	_svl(PackedVector2Array([Vector2(-22,2),Vector2(-36,-4),Vector2(-34,18),Vector2(-22,22)]), PU, 1.0)
+	_svl(PackedVector2Array([Vector2(22,2), Vector2(36,-4), Vector2(34,18), Vector2(22,22)]),  PU, 1.0)
+	var ml4 = Line2D.new(); ml4.default_color = Color(0.0,0.87,1.0,0.35); ml4.width = 1.2
+	ml4.points = PackedVector2Array([Vector2(0,-54), Vector2(0,50)]); ship_visual.add_child(ml4)
+	ship_visual.modulate = Color(1.0, 1.0, 1.15)
 
-# --- Helpers vaisseaux ---
+# --- Helpers visuels vaisseau ---
 
-func _add_ship_body(col: Color, pts: PackedVector2Array):
-	var p = Polygon2D.new(); p.color = col; p.polygon = pts; ship_visual.add_child(p)
+func _svp(col: Color, pts: PackedVector2Array):
+	var p = Polygon2D.new(); p.color = col; p.polygon = pts
+	ship_visual.add_child(p)
 
-func _add_ship_wings(col: Color, wings: Array):
-	for w in wings:
-		var p = Polygon2D.new(); p.color = col; p.polygon = w; ship_visual.add_child(p)
+func _svl(pts: PackedVector2Array, col: Color, width: float = 1.5):
+	var l = Line2D.new(); l.default_color = col; l.width = width
+	l.points = pts; l.closed = true
+	ship_visual.add_child(l)
 
-func _add_cat_cockpit(center: Vector2, radius: float,
-                      bg_col: Color, glow_col: Color, rim_col: Color,
-                      fur_col: Color, iris_col: Color):
-	# Fond cockpit
-	var bg = Polygon2D.new(); bg.color = bg_col
-	bg.polygon = _ship_ellipse(radius, radius * 1.2, 12)
-	bg.position = center; ship_visual.add_child(bg)
-	# Reflet vitré
-	var glow = Polygon2D.new(); glow.color = Color(glow_col.r, glow_col.g, glow_col.b, 0.15)
-	glow.polygon = _ship_ellipse(radius * 0.85, radius * 1.05, 12)
-	glow.position = center; ship_visual.add_child(glow)
-	# Tête du chat
-	var head = Polygon2D.new(); head.color = fur_col
-	head.polygon = _ship_ellipse(radius * 0.8, radius * 0.85, 12)
-	head.position = center; ship_visual.add_child(head)
-	# Yeux
-	var eye_r = radius * 0.28
-	var ey = center.y - radius * 0.18
-	_ship_eye(Vector2(center.x - radius*0.38, ey), eye_r, iris_col)
-	_ship_eye(Vector2(center.x + radius*0.38, ey), eye_r, iris_col)
-	# Nez
-	var nose = Polygon2D.new(); nose.color = Color("#ff6699")
-	nose.polygon = _ship_ellipse(radius*0.13, radius*0.1, 6)
-	nose.position = Vector2(center.x, center.y + radius*0.1); ship_visual.add_child(nose)
-	# Joues roses
-	for sx in [-1.0, 1.0]:
-		var cheek = Polygon2D.new()
-		cheek.color = Color(1, 0.6, 0.6, 0.35)
-		cheek.polygon = _ship_ellipse(radius*0.28, radius*0.2, 8)
-		cheek.position = Vector2(center.x + sx*radius*0.55, center.y + radius*0.15)
-		ship_visual.add_child(cheek)
-	# Moustaches
-	for side in [-1.0, 1.0]:
-		for row in [0.0, 1.0]:
-			var w = Line2D.new(); w.width = 1.0
-			w.default_color = Color(0.6, 0.5, 0.4, 0.65)
-			var ox = side * radius * 0.2
-			var oy = center.y + radius * 0.08 + row * radius * 0.12
-			w.points = PackedVector2Array([
-				Vector2(center.x + ox, oy),
-				Vector2(center.x + side * radius * 0.95, oy - row * radius * 0.05)
-			])
-			ship_visual.add_child(w)
-	# Contour vitre
-	var rim = Line2D.new(); rim.width = 1.5
-	rim.default_color = Color(rim_col.r, rim_col.g, rim_col.b, 0.4)
-	rim.points = _ship_ellipse(radius, radius * 1.2, 12)
-	rim.closed = true; rim.position = center; ship_visual.add_child(rim)
-
-func _ship_eye(pos: Vector2, r: float, iris_col: Color):
-	for data in [
-		[r, Color.WHITE], [r*0.72, iris_col],
-		[r*0.44, Color(0.1,0.1,0.1)], [r*0.22, Color.WHITE]
-	]:
-		var p = Polygon2D.new(); p.color = data[1]
-		p.polygon = _ship_ellipse(data[0], data[0], 8)
-		p.position = pos; ship_visual.add_child(p)
-
-func _add_cat_ears(center: Vector2, col_outer: Color, col_inner: Color):
-	for sx in [-1.0, 1.0]:
-		var ox = center.x + sx * 11.0; var oy = center.y - 16.0
-		var outer = Polygon2D.new(); outer.color = col_outer
-		outer.polygon = PackedVector2Array([Vector2(ox-5,oy), Vector2(ox,oy-12), Vector2(ox+5,oy)])
-		ship_visual.add_child(outer)
-		var inner = Polygon2D.new(); inner.color = col_inner
-		inner.polygon = PackedVector2Array([Vector2(ox-3,oy-1), Vector2(ox,oy-8), Vector2(ox+3,oy-1)])
-		ship_visual.add_child(inner)
-
-func _add_crown(center: Vector2):
-	var crown = Polygon2D.new(); crown.color = Color("#ffcc00")
-	crown.polygon = PackedVector2Array([
-		Vector2(center.x-14,center.y+4), Vector2(center.x-14,center.y-4),
-		Vector2(center.x-8,center.y-10), Vector2(center.x-4,center.y-4),
-		Vector2(center.x,center.y-14), Vector2(center.x+4,center.y-4),
-		Vector2(center.x+8,center.y-10), Vector2(center.x+14,center.y-4),
-		Vector2(center.x+14,center.y+4)
-	])
-	ship_visual.add_child(crown)
-	# Gemmes couronne
-	for gem_data in [[center.x, center.y-14, "#ff4444"],
-	                 [center.x-14, center.y-5, "#4488ff"],
-	                 [center.x+14, center.y-5, "#44ff88"]]:
-		var gem = Polygon2D.new(); gem.color = Color(gem_data[2])
-		gem.polygon = _ship_ellipse(2.5, 2.5, 6)
-		gem.position = Vector2(gem_data[0], gem_data[1])
-		ship_visual.add_child(gem)
-
-func _add_ship_cannons(positions: Array, col: Color):
-	for pos in positions:
-		var c = Polygon2D.new(); c.color = col
-		c.polygon = PackedVector2Array([Vector2(-3,0), Vector2(3,0), Vector2(3,12), Vector2(-3,12)])
-		c.position = Vector2(pos.x, pos.y - 12); ship_visual.add_child(c)
-
-func _add_thrusters(positions: Array, col: Color):
-	for pos in positions:
-		var t = Polygon2D.new()
-		t.color = Color(col.r, col.g, col.b, 0.8)
-		t.polygon = _ship_ellipse(5.0, 4.0, 8)
-		t.position = pos; ship_visual.add_child(t)
-
-func _ship_ellipse(rx: float, ry: float, n: int) -> PackedVector2Array:
+func _sv_ellipse(rx: float, ry: float, n: int = 12) -> PackedVector2Array:
 	var pts = PackedVector2Array()
 	for i in n:
 		var a = TAU * i / n
-		pts.append(Vector2(cos(a)*rx, sin(a)*ry))
+		pts.append(Vector2(cos(a) * rx, sin(a) * ry))
+	return pts
+
+func _sv_ellipse_at(rx: float, ry: float, n: int, offset: Vector2) -> PackedVector2Array:
+	var pts = PackedVector2Array()
+	for i in n:
+		var a = TAU * i / n
+		pts.append(Vector2(cos(a) * rx + offset.x, sin(a) * ry + offset.y))
 	return pts
 
 func _physics_process(delta):

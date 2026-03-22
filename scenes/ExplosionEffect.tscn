@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ExplosionEffect.gd" id="1_script"]
+
+[node name="ExplosionEffect" type="Node2D"]
+z_index = 15
+script = ExtResource("1_script")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.18, 0.18)
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 18
+one_shot = true
+explosiveness = 0.9
+lifetime = 0.5
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 80.0
+initial_velocity_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(1, 0.5, 0.1, 1)

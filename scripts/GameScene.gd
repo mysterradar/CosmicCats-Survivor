@@ -53,7 +53,7 @@ func setup_world_visuals():
 	if GlobalManager: level = GlobalManager.current_selected_level
 
 	# Sécurité pour le chargement des planètes
-	var planet_idx = ((level - 1) % 8) + 1
+	var planet_idx = ((level - 1) % 9) + 1
 	var path = "res://assets/sprites/planet_stage%d.png" % planet_idx
 	if planet_sprite and ResourceLoader.exists(path):
 		planet_sprite.texture = load(path)

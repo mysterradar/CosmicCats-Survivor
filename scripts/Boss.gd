@@ -13,7 +13,9 @@ var current_state = State.FOLLOW
 var state_timer := 0.0
 
 var teleport_scene = preload("res://scenes/TeleportEffect.tscn")
+var explosion_scene = preload("res://scenes/ExplosionEffect.tscn")
 var boss_sprite: Sprite2D = null
+static var _bullet_tex: Texture2D = null
 
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
@@ -89,28 +91,18 @@ func change_state(new_state):
 func spawn_projectile():
 	if not player: return
 
+	if not _bullet_tex:
+		_bullet_tex = load("res://assets/sprites/fx_bullet.png")
+
 	var proj = Area2D.new()
 	proj.collision_layer = 0
 	proj.collision_mask = 1
 
-	# Glow extérieur
-	var glow = Polygon2D.new()
-	var glow_col = Color(1.0, 0.5, 0.1, 0.35) if phase == 1 else Color(1.0, 0.1, 0.2, 0.4)
-	glow.color = glow_col
-	glow.polygon = _circle_pts(20, 10)
-	proj.add_child(glow)
-
-	# Corps principal
-	var body = Polygon2D.new()
-	body.color = Color(1.0, 0.55, 0.1, 0.95) if phase == 1 else Color(1.0, 0.15, 0.15, 0.95)
-	body.polygon = _circle_pts(11, 10)
-	proj.add_child(body)
-
-	# Noyau blanc
-	var core = Polygon2D.new()
-	core.color = Color(1, 1, 1, 0.9)
-	core.polygon = _circle_pts(5, 8)
-	proj.add_child(core)
+	# Sprite projectile
+	var sprite = Sprite2D.new()
+	sprite.texture = _bullet_tex
+	sprite.scale = Vector2(0.10, 0.10)
+	proj.add_child(sprite)
 
 	# Collision
 	var cshape = CollisionShape2D.new()
@@ -133,6 +125,9 @@ func spawn_projectile():
 
 	get_parent().add_child(proj)
 	proj.global_position = global_position
+	# Orienter le sprite vers la direction de tir
+	if proj.get_child_count() > 0 and proj.get_child(0) is Sprite2D:
+		proj.get_child(0).rotation = travel.angle()
 
 	var tween = create_tween()
 	tween.tween_property(proj, "global_position", proj.global_position + travel, 2.5)
@@ -158,8 +153,17 @@ func die():
 	is_dead = true
 	if AchievementManager:
 		AchievementManager.track_stat("boss_kills", 1)
+
+	# Explosions en cascade
+	for i in 4:
+		var expl = explosion_scene.instantiate()
+		expl.large = true
+		get_parent().add_child(expl)
+		var offset = Vector2(randf_range(-60, 60), randf_range(-80, 80))
+		expl.global_position = global_position + offset
+
 	emit_signal("died")
 	var tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 1.0)
+	tween.tween_property(self, "modulate:a", 0.0, 1.2)
 	await tween.finished
 	queue_free()

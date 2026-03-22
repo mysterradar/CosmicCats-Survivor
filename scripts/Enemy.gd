@@ -14,6 +14,7 @@ var is_elite: bool = false
 var player = null
 var gem_scene = preload("res://scenes/ExperienceGem.tscn")
 var kibble_scene = preload("res://scenes/KibbleItem.tscn")
+var explosion_scene = preload("res://scenes/ExplosionEffect.tscn")
 var animation_timer = 0.0
 
 static var _textures: Array = []
@@ -85,6 +86,12 @@ func take_damage(amount: float):
 	if current_health <= 0: die()
 
 func die():
+	# Explosion de débris
+	var expl = explosion_scene.instantiate()
+	expl.large = false
+	get_parent().add_child(expl)
+	expl.global_position = global_position
+
 	var gem = gem_scene.instantiate()
 	get_parent().add_child(gem)
 	gem.global_position = global_position

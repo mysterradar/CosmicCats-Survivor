@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/SardineMissile.gd" id="1_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_missile"]
+radius = 8.0
+height = 40.0
+
+[node name="SardineMissile" type="Area2D"]
+z_index = 6
+script = ExtResource("1_script")
+
+[node name="EngineGlow" type="Polygon2D" parent="."]
+color = Color(0.2, 0.9, 1.0, 0.25)
+polygon = PackedVector2Array(20, 0, 8, -10, -12, -10, -24, 0, -12, 10, 8, 10)
+
+[node name="FishBody" type="Polygon2D" parent="."]
+color = Color(0.65, 0.85, 1.0, 1.0)
+polygon = PackedVector2Array(18, 0, 6, -7, -9, -8, -20, 0, -9, 8, 6, 7)
+
+[node name="Belly" type="Polygon2D" parent="FishBody"]
+color = Color(0.9, 0.96, 1.0, 0.75)
+polygon = PackedVector2Array(10, 0, 2, -4, -6, -4, -10, 0, -6, 4, 2, 4)
+
+[node name="Tail" type="Polygon2D" parent="."]
+position = Vector2(-20, 0)
+color = Color(0.45, 0.68, 1.0, 1.0)
+polygon = PackedVector2Array(0, 0, -9, -9, -6, 0, -9, 9)
+
+[node name="DorsalFin" type="Polygon2D" parent="."]
+color = Color(0.45, 0.7, 1.0, 0.85)
+position = Vector2(2, -8)
+polygon = PackedVector2Array(-3, 0, 0, -8, 5, -4, 3, 0)
+
+[node name="Eye" type="Polygon2D" parent="."]
+position = Vector2(10, -3)
+color = Color(1.0, 0.95, 0.2, 1.0)
+polygon = PackedVector2Array(0, -2.5, 2, 0, 0, 2.5, -2, 0)
+
+[node name="Trail" type="CPUParticles2D" parent="."]
+position = Vector2(-20, 0)
+amount = 30
+lifetime = 0.25
+speed_scale = 2.5
+direction = Vector2(-1, 0)
+spread = 14.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 110.0
+scale_amount_min = 1.5
+scale_amount_max = 4.0
+color = Color(0.3, 0.95, 1.0, 0.85)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_missile")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

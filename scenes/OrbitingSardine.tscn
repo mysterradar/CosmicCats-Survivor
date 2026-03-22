@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/OrbitingSardine.gd" id="1_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sardine"]
+radius = 8.0
+height = 44.0
+
+[node name="OrbitingSardine" type="Area2D"]
+z_index = 11
+script = ExtResource("1_script")
+
+[node name="BodyGlow" type="Polygon2D" parent="."]
+color = Color(0.1, 0.65, 1.0, 0.18)
+polygon = PackedVector2Array(0, -26, 11, -10, 12, 4, 8, 18, 0, 24, -8, 18, -12, 4, -11, -10)
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.72, 0.88, 1.0, 1.0)
+polygon = PackedVector2Array(0, -24, 10, -9, 11, 3, 7, 16, 0, 22, -7, 16, -11, 3, -10, -9)
+
+[node name="Belly" type="Polygon2D" parent="."]
+color = Color(0.9, 0.95, 1.0, 0.8)
+polygon = PackedVector2Array(0, -16, 6, -6, 6, 6, 0, 14, -6, 6, -6, -6)
+
+[node name="TailFin" type="Node2D" parent="."]
+position = Vector2(0, 22)
+
+[node name="ForkLeft" type="Polygon2D" parent="TailFin"]
+color = Color(0.55, 0.75, 1.0, 1.0)
+polygon = PackedVector2Array(0, 0, -9, 6, -12, 12, -4, 10)
+
+[node name="ForkRight" type="Polygon2D" parent="TailFin"]
+color = Color(0.55, 0.75, 1.0, 1.0)
+polygon = PackedVector2Array(0, 0, 9, 6, 12, 12, 4, 10)
+
+[node name="DorsalFin" type="Polygon2D" parent="."]
+color = Color(0.45, 0.7, 1.0, 0.85)
+polygon = PackedVector2Array(-4, -10, 0, -20, 6, -12, 2, -8)
+
+[node name="Eye" type="Polygon2D" parent="."]
+position = Vector2(4, -12)
+color = Color(1.0, 0.95, 0.2, 1.0)
+polygon = PackedVector2Array(0, -3, 2, 0, 0, 3, -2, 0)
+
+[node name="EyePupil" type="Polygon2D" parent="."]
+position = Vector2(4, -12)
+color = Color(0.1, 0.1, 0.15, 1.0)
+polygon = PackedVector2Array(0, -1.5, 1, 0, 0, 1.5, -1, 0)
+
+[node name="Trail" type="CPUParticles2D" parent="."]
+position = Vector2(0, 22)
+amount = 18
+lifetime = 0.3
+speed_scale = 2.0
+gravity = Vector2(0, 0)
+direction = Vector2(0, 1)
+spread = 20.0
+initial_velocity_min = 25.0
+initial_velocity_max = 60.0
+scale_amount_min = 1.5
+scale_amount_max = 3.0
+color = Color(0.3, 0.85, 1.0, 0.75)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_sardine")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

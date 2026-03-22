@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/PlasmaBlade.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_blade"]
+radius = 70.0
+
+[node name="PlasmaBlade" type="Area2D"]
+z_index = 12
+script = ExtResource("1_script")
+
+[node name="OuterGlow" type="Polygon2D" parent="."]
+modulate = Color(0, 0.75, 1.0, 0.28)
+scale = Vector2(1.25, 1.25)
+polygon = PackedVector2Array(0, -60, 15, -45, 60, 0, 15, 45, 0, 60, -15, 45, -60, 0, -15, -45)
+
+[node name="MainBlade" type="Polygon2D" parent="."]
+color = Color(0.05, 0.88, 1.0, 0.82)
+polygon = PackedVector2Array(0, -60, 5, -10, 60, 0, 5, 10, 0, 60, -5, 10, -60, 0, -5, -10)
+
+[node name="EdgeLine" type="Line2D" parent="."]
+default_color = Color(0.6, 1.0, 1.0, 0.6)
+width = 1.5
+closed = true
+points = PackedVector2Array(0, -60, 5, -10, 60, 0, 5, 10, 0, 60, -5, 10, -60, 0, -5, -10)
+
+[node name="InnerCore" type="Polygon2D" parent="."]
+scale = Vector2(0.3, 0.3)
+color = Color(1, 1, 1, 1.0)
+polygon = PackedVector2Array(0, -60, 60, 0, 0, 60, -60, 0)
+
+[node name="Sparks" type="CPUParticles2D" parent="."]
+amount = 20
+lifetime = 0.5
+speed_scale = 2.0
+gravity = Vector2(0, 0)
+spread = 180.0
+initial_velocity_min = 30.0
+initial_velocity_max = 80.0
+scale_amount_min = 1.5
+scale_amount_max = 3.5
+color = Color(0.4, 1.0, 1.0, 0.9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_blade")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

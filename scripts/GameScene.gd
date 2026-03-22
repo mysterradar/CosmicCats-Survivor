@@ -85,7 +85,11 @@ func _process(delta):
 		enemy_spawn_rate = max(0.1, enemy_spawn_rate * 0.8)
 		spawn_timer.wait_time = enemy_spawn_rate
 	
-	if time_elapsed > 120.0 and not boss_spawned:
+	var boss_spawn_time := 120.0
+	if GlobalManager:
+		var lv = GlobalManager.current_selected_level
+		boss_spawn_time = max(40.0, 120.0 - lv * 6.0)
+	if time_elapsed > boss_spawn_time and not boss_spawned:
 		spawn_boss()
 	
 	if active_boss and is_instance_valid(active_boss):

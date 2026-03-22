@@ -121,9 +121,9 @@ func spawn_projectile():
 
 	var dmg := 15.0 if phase == 1 else 28.0
 	var spread := 0.25 if phase == 1 else 0.55
-	var dir = (player.global_position - global_position).normalized()
+	var dir: Vector2 = (player.global_position - global_position).normalized()
 	dir = dir.rotated(randf_range(-spread, spread))
-	var travel := dir * 600.0
+	var travel: Vector2 = dir * 600.0
 
 	proj.body_entered.connect(func(body_hit):
 		if body_hit.is_in_group("player") and body_hit.has_method("take_damage"):

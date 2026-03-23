@@ -51,6 +51,17 @@ func _ready():
 		$Magnet/CollisionShape2D.shape = $Magnet/CollisionShape2D.shape.duplicate()
 		$Magnet/CollisionShape2D.shape.radius += pu.get("xp_radius_bonus", 0) * 40.0
 
+	# Bonus chat pilote
+	if CatManager:
+		CatManager.reset_session()
+		var bonuses = CatManager.get_active_bonuses()
+		damage_mult  += bonuses.get("damage_mult", 0.0)
+		speed        += bonuses.get("speed_bonus", 0.0)
+		var fr_mult   = bonuses.get("fire_rate_mult", 0.0)
+		if fr_mult > 0.0:
+			weapon_timer.wait_time = max(0.08, weapon_timer.wait_time * (1.0 - fr_mult))
+		CatManager.apply_passive(self)
+
 	current_health = max_health
 	if health_bar:
 		health_bar.max_value = max_health
@@ -68,8 +79,8 @@ func setup_ship_visual(lv: int):
 
 	var tier := 0
 	var s := Vector2(0.30, 0.30)
-	if lv >= 15:   tier = 3; s = Vector2(0.28, 0.28)
-	elif lv >= 10: tier = 2; s = Vector2(0.23, 0.23)
+	if lv >= 15:   tier = 3; s = Vector2(0.35, 0.35)
+	elif lv >= 10: tier = 2; s = Vector2(0.26, 0.26)
 	elif lv >= 5:  tier = 1; s = Vector2(0.22, 0.22)
 
 	if _ship_textures.is_empty():
@@ -77,19 +88,28 @@ func setup_ship_visual(lv: int):
 			load("res://assets/sprites/ship_t1.png"),
 			load("res://assets/sprites/ship_t2.png"),
 			load("res://assets/sprites/ship_t3.png"),
-			load("res://assets/sprites/ship_t4.png"),
 		]
+
+	# tier 3 réutilise ship_t3 (ship_t4 est un screenshot corrompu)
+	var tex_idx = min(tier, 2)
 	var sprite = Sprite2D.new()
-	sprite.texture = _ship_textures[tier]
+	sprite.texture = _ship_textures[tex_idx]
 	sprite.scale = s
+
+	# Tous les sprites ont un fond blanc ou damier baked-in → shader de suppression fond
+	var mat = ShaderMaterial.new()
+	mat.shader = load("res://assets/bg_remove.gdshader")
+	sprite.material = mat
+
 	ship_visual.add_child(sprite)
 
 	# Anneau bouclier (masqué par défaut)
 	shield_ring = Line2D.new()
 	shield_ring.default_color = Color(0.2, 0.9, 1.0, 0.85)
-	shield_ring.width = 3.0
-	shield_ring.points = _sv_ellipse(42, 42, 28)
-	shield_ring.closed = true
+	shield_ring.width = 6.0
+	var ring_pts = _sv_ellipse(55, 55, 32)
+	ring_pts.append(ring_pts[0])  # Fermeture manuelle (Godot 4 Line2D n'a pas closed)
+	shield_ring.points = ring_pts
 	shield_ring.visible = shield_active
 	ship_visual.add_child(shield_ring)
 
@@ -202,6 +222,10 @@ func take_damage(amount: float):
 		if shield_ring: shield_ring.visible = false
 		return
 	current_health -= amount
+	# Passive low_hp_rage
+	if CatManager and CatManager.get_active_cat_data().get("passive_id") == "low_hp_rage":
+		if current_health < max_health * 0.3:
+			damage_mult = max(damage_mult, damage_mult * (1.15 + CatManager._passive_amp * 0.05))
 	if health_bar: health_bar.value = current_health
 	if current_health <= 0:
 		is_dead = true

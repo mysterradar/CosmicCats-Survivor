@@ -77,15 +77,17 @@ func load_game():
 					else:
 						data["stats"]["play_time"] = float(data["stats"]["play_time"])
 				# Migration v0.5 — chats pilotes
-				if not data.has("cats") or data["cats"].is_empty():
+				if not (data.get("cats") is Dictionary) or data["cats"].is_empty():
 					data["cats"] = _default_cats_data()
 				else:
 					# Ajouter les nouveaux chats manquants
-					for cat_id in _default_cats_data():
+					var defaults := _default_cats_data()
+					for cat_id in defaults:
 						if not data["cats"].has(cat_id):
-							data["cats"][cat_id] = _default_cats_data()[cat_id]
+							data["cats"][cat_id] = defaults[cat_id]
 				if not data.has("cosmic_fur"):  data["cosmic_fur"] = 0
-				if not data.has("active_cat"):  data["active_cat"] = "minou_cosmique"
+				if not data.has("active_cat") or not data["cats"].has(data["active_cat"]):
+					data["active_cat"] = "minou_cosmique"
 				# Migration wave_reached
 				if not data["stats"].has("wave_reached"): data["stats"]["wave_reached"] = 0
 				# Migration nouvelles upgrades shop

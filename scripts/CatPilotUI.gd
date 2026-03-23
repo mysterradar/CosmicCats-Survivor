@@ -2,9 +2,9 @@ extends Control
 
 signal closed
 
-@onready var carousel    = $Panel/ScrollContainer/HBox
-@onready var fur_label   = $Panel/TopBar/FurLabel
-@onready var close_btn   = $Panel/TopBar/CloseButton
+@onready var carousel    = $Panel/VBoxContainer/ScrollContainer/HBox
+@onready var fur_label   = $Panel/VBoxContainer/TopBar/FurLabel
+@onready var close_btn   = $Panel/VBoxContainer/TopBar/CloseButton
 
 func _ready():
 	visible = false

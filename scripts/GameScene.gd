@@ -76,8 +76,12 @@ func setup_world_visuals():
 	if GlobalManager: level = GlobalManager.current_selected_level
 	wave_duration = max(20.0, 40.0 - wave_count * 1.0)
 	wave_kill_target = 15 + wave_count * 3
-	if planet_sprite: planet_sprite.visible = false
-	var hue = fmod(level * 0.13, 1.0)
+	# Planète de fond : change selon la vague (1-9 en cycle)
+	if planet_sprite:
+		var planet_idx = ((wave_count - 1) % 9) + 1
+		planet_sprite.texture = load("res://assets/sprites/planet_stage%d.png" % planet_idx)
+		planet_sprite.visible = true
+	var hue = fmod(wave_count * 0.13, 1.0)
 	if space_bg: space_bg.color = Color.from_hsv(hue, 0.4, 0.03)
 	var star_field_script = load("res://scripts/StarField.gd")
 	var star_field = Node2D.new(); star_field.set_script(star_field_script)

@@ -23,6 +23,7 @@ var blade_scene = preload("res://scenes/PlasmaBlade.tscn")
 
 var joystick = null
 var is_dead = false
+var _rage_applied := false
 var run_kibble = 0
 var has_vacuum = false
 var damage_mult = 1.0
@@ -223,9 +224,12 @@ func take_damage(amount: float):
 		return
 	current_health -= amount
 	# Passive low_hp_rage
-	if CatManager and CatManager.get_active_cat_data().get("passive_id") == "low_hp_rage":
-		if current_health < max_health * 0.3:
-			damage_mult = max(damage_mult, damage_mult * (1.15 + CatManager._passive_amp * 0.05))
+	if not _rage_applied and CatManager:
+		var cat_data = CatManager.get_active_cat_data()
+		if cat_data and cat_data.get("passive_id") == "low_hp_rage":
+			if current_health < max_health * 0.3:
+				damage_mult *= (1.15 + CatManager._passive_amp * 0.05)
+				_rage_applied = true
 	if health_bar: health_bar.value = current_health
 	if current_health <= 0:
 		is_dead = true

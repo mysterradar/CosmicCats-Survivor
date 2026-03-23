@@ -51,6 +51,13 @@ func _ready():
 		# Dupliquer la shape avant modification (Resource partagée en Godot 4)
 		$Magnet/CollisionShape2D.shape = $Magnet/CollisionShape2D.shape.duplicate()
 		$Magnet/CollisionShape2D.shape.radius += pu.get("xp_radius_bonus", 0) * 40.0
+		# Nouvelles upgrades v0.5
+		var pu2 = SaveManager.data["perm_upgrades"]
+		max_health += pu2.get("hull_reinforcement", 0) * 50.0
+		speed      += pu2.get("engine_boost", 0) * 30.0
+		# weapon_slot : sardines orbitantes supplémentaires
+		for _i in pu2.get("weapon_slot", 0):
+			spawn_orbiting_sardine()
 
 	# Bonus chat pilote
 	if CatManager:

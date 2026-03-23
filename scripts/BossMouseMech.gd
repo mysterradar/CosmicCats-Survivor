@@ -92,9 +92,9 @@ func _fire_gatling():
 func _fire_missile():
 	if not player: return
 	var missile = missile_scene.instantiate()
-	get_parent().add_child(missile)
-	missile.global_position = global_position
 	missile.target = player
+	missile.global_position = global_position
+	get_parent().add_child(missile)
 
 func take_damage(amount: float):
 	current_health -= amount

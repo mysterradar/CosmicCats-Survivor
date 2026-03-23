@@ -134,4 +134,4 @@ func _highlighted_style() -> StyleBoxFlat:
 
 func _on_close_button_pressed():
 	visible = false
-	emit_signal("closed")
+	closed.emit()

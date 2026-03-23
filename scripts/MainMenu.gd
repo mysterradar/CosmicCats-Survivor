@@ -35,6 +35,7 @@ func _ready():
 
 	if shop_ui and not shop_ui.shop_closed.is_connected(update_ui):
 		shop_ui.shop_closed.connect(update_ui)
+	if cat_pilot_ui: cat_pilot_ui.closed.connect(update_ui)
 
 	# Animation d'entrée fade-in
 	modulate.a = 0.0

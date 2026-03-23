@@ -82,8 +82,9 @@ func _fire_missile():
 	cc.radius = 22.0; cs.shape = cc; proj.add_child(cs)
 	proj.body_entered.connect(func(b):
 		if b.is_in_group("player") and b.has_method("take_damage"): b.take_damage(20.0)
-		# AoE
+		# AoE (exclut la cible directe)
 		for e in get_tree().get_nodes_in_group("player"):
+			if e == b: continue
 			if is_instance_valid(e) and e.global_position.distance_to(proj.global_position) < 80:
 				if e.has_method("take_damage"): e.take_damage(10.0)
 		if is_instance_valid(proj): proj.queue_free()

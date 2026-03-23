@@ -134,7 +134,7 @@ func _start_boss_phase():
 		boss_warning.modulate = Color(1, 1, 1, 1)
 	await get_tree().create_timer(1.5).timeout
 	if boss_warning: boss_warning.visible = false
-	_spawn_boss()
+	if current_phase != Phase.DEFEAT: _spawn_boss()
 
 func _spawn_boss():
 	var scene = _get_boss_scene_for_wave(wave_count)
@@ -175,7 +175,7 @@ func _on_boss_died():
 	else:
 		current_phase = Phase.WAVE_COMPLETE
 		await get_tree().create_timer(1.5).timeout
-		_advance_wave()
+		if current_phase != Phase.DEFEAT: _advance_wave()
 
 func _advance_wave():
 	wave_count += 1

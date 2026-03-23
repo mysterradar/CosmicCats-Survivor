@@ -74,7 +74,7 @@ func _make_card(upg: Dictionary) -> Control:
 	var maxed = current_level >= 10
 	var wave_req = upg.get("wave_req", 0)
 	var wave_reached = 0
-	if SaveManager: wave_reached = SaveManager.data["stats"].get("wave_reached", 0)
+	if SaveManager: wave_reached = SaveManager.data.get("stats", {}).get("wave_reached", 0)
 	var locked_by_wave = wave_req > 0 and wave_reached < wave_req
 
 	var card = PanelContainer.new()

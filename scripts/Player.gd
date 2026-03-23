@@ -52,11 +52,10 @@ func _ready():
 		$Magnet/CollisionShape2D.shape = $Magnet/CollisionShape2D.shape.duplicate()
 		$Magnet/CollisionShape2D.shape.radius += pu.get("xp_radius_bonus", 0) * 40.0
 		# Nouvelles upgrades v0.5
-		var pu2 = SaveManager.data["perm_upgrades"]
-		max_health += pu2.get("hull_reinforcement", 0) * 50.0
-		speed      += pu2.get("engine_boost", 0) * 30.0
+		max_health += pu.get("hull_reinforcement", 0) * 50.0
+		speed      += pu.get("engine_boost", 0) * 30.0
 		# weapon_slot : sardines orbitantes supplémentaires
-		for _i in pu2.get("weapon_slot", 0):
+		for _i in pu.get("weapon_slot", 0):
 			spawn_orbiting_sardine()
 
 	# Bonus chat pilote

@@ -1,6 +1,7 @@
 extends Node
 
 # ─── Catalogue ───────────────────────────────────────────────
+# TODO: remplacer cat_stage1/2/3.png par des sprites individuels par chat
 const CATS = {
 	"minou_cosmique": {
 		"name": "Minou Cosmique", "rarity": "COMMON", "unlock_cost": 0,
@@ -70,7 +71,7 @@ const CATS = {
 	},
 	"astro": {
 		"name": "Astro", "rarity": "LEGENDARY", "unlock_cost": 2000,
-		"description": "Gagne 50%% d'XP en plus sur son chat pilote.",
+		"description": "Gagne 50% d'XP en plus sur son chat pilote.",
 		"sprite_stage": [
 			"res://assets/sprites/cat_stage1.png",
 			"res://assets/sprites/cat_stage2.png",
@@ -128,6 +129,7 @@ func can_evolve(cat_id: String) -> bool:
 
 func evolve_cat(cat_id: String):
 	if not can_evolve(cat_id): return
+	if not SaveManager.data["cats"].has(cat_id): return
 	var save  = SaveManager.data["cats"][cat_id]
 	var stage = save["stage"]
 	if stage == 1: SaveManager.data["cosmic_fur"] -= STAGE2_FUR; save["stage"] = 2
@@ -138,12 +140,14 @@ func unlock_cat(cat_id: String):
 	if not CATS.has(cat_id): return
 	var cost = CATS[cat_id]["unlock_cost"]
 	if cost <= 0:
+		if not SaveManager.data["cats"].has(cat_id): return
 		SaveManager.data["cats"][cat_id]["unlocked"] = true
 		SaveManager.save_game()
 		return
 	var kibble = SaveManager.data.get("cosmic_kibble", 0)
 	if kibble < cost: return
 	SaveManager.data["cosmic_kibble"] -= cost
+	if not SaveManager.data["cats"].has(cat_id): return
 	SaveManager.data["cats"][cat_id]["unlocked"] = true
 	SaveManager.save_game()
 
@@ -165,11 +169,13 @@ func add_xp(base_amount: int):
 		save["xp"]   -= needed
 		save["level"] += 1
 		needed = xp_needed_for_level(save["level"])
+	if save["level"] >= 30:
+		save["xp"] = 0
 	SaveManager.save_game()
 
 func add_cosmic_fur(amount: int):
 	if not SaveManager: return
-	var mult = 1.0 + SaveManager.data["perm_upgrades"].get("fur_drop", 0) * 0.10
+	var mult = 1.0 + SaveManager.data.get("perm_upgrades", {}).get("fur_drop", 0) * 0.10
 	SaveManager.data["cosmic_fur"] += int(amount * mult)
 	SaveManager.save_game()
 
@@ -204,7 +210,7 @@ func apply_passive(player: Node):
 				line.add_point(Vector2.ZERO); line.add_point(Vector2(0, 20))
 				line.default_color = Color(1.0, 0.4, 0.0, 0.7)
 				line.width = 6.0
-				get_tree().current_scene.add_child(line)
+				player.get_tree().current_scene.add_child(line)
 				line.global_position = player.global_position
 				var tw = line.create_tween()
 				tw.tween_property(line, "modulate:a", 0.0, 0.4)
@@ -220,7 +226,7 @@ func apply_passive(player: Node):
 				if enemies.size() > 0: player.shoot_missile(enemies)
 			)
 		"fast_shield":
-			player.shield_cooldown = max(1.0, player.shield_cooldown * (0.5 - amp * 0.1))
+			player.shield_cooldown = max(1.0, player.shield_cooldown * (0.5 - amp))
 		"kill_explosion":
 			pass  # connecté dans GameScene._on_enemy_died()
 		"xp_boost":

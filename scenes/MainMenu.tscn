@@ -1,15 +1,52 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/MainMenu.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/ShopUI.tscn" id="2_shop"]
 [ext_resource type="PackedScene" path="res://scenes/SettingsUI.tscn" id="3_settings"]
 [ext_resource type="PackedScene" path="res://scenes/MissionUI.tscn" id="4_missions"]
 [ext_resource type="PackedScene" path="res://scenes/StatsUI.tscn" id="5_stats"]
+[ext_resource type="PackedScene" path="res://scenes/CatPilotUI.tscn" id="6_catpilot"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
-bg_color = Color(0.05, 0.05, 0.15, 1)
+bg_color = Color(0.04, 0.02, 0.12, 0.95)
 border_width_bottom = 2
-border_color = Color(0, 0.8, 1, 1)
+border_color = Color(0.5, 0.1, 0.9, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_play"]
+bg_color = Color(0.75, 0.28, 0.0, 1)
+border_width_top = 3
+border_width_bottom = 3
+border_width_left = 3
+border_width_right = 3
+border_color = Color(1.0, 0.6, 0.0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.12, 0.04, 0.28, 1)
+border_width_top = 2
+border_width_bottom = 2
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.45, 0.08, 0.85, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nav"]
+bg_color = Color(0.08, 0.03, 0.20, 0.9)
+border_width_top = 2
+border_width_bottom = 2
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.3, 0.08, 0.65, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -27,7 +64,78 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.02, 0.01, 0.05, 1)
+color = Color(0.03, 0.01, 0.08, 1)
+
+[node name="Title" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -280.0
+offset_top = 120.0
+offset_right = 280.0
+offset_bottom = 220.0
+grow_horizontal = 2
+z_index = 2
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="Title"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 54
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_colors/font_outline_color = Color(0.2, 0.0, 0.4, 1)
+text = "🐱 COSMIC CATS"
+horizontal_alignment = 1
+
+[node name="SubLabel" type="Label" parent="Title"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(1.0, 0.55, 0.0, 1)
+theme_override_constants/outline_size = 2
+theme_override_colors/font_outline_color = Color(0.15, 0.05, 0.0, 1)
+text = "VS ALIEN MICE"
+horizontal_alignment = 1
+
+[node name="CockpitZone" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -140.0
+offset_top = 230.0
+offset_right = 140.0
+offset_bottom = 370.0
+grow_horizontal = 2
+z_index = 2
+theme_override_constants/separation = 6
+
+[node name="CatSprite" type="TextureRect" parent="CockpitZone"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 100)
+size_flags_horizontal = 4
+stretch_mode = 2
+
+[node name="CatNameLabel" type="Label" parent="CockpitZone"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+text = "Minou Cosmique — Niv. 1"
+horizontal_alignment = 1
+
+[node name="CatXPBar" type="ProgressBar" parent="CockpitZone"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 14)
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="PiloteButton" type="Button" parent="CockpitZone"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "🐱 Pilote"
 
 [node name="Carousel" type="Control" parent="."]
 layout_mode = 1
@@ -36,16 +144,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_top = -50.0
-offset_bottom = -50.0
+offset_left = 0.0
+offset_top = 30.0
+offset_right = 0.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
+z_index = 2
 
-[node name="EnemyDisplay" type="Polygon2D" parent="Carousel"]
-position = Vector2(0, -50)
-scale = Vector2(5, 5)
-color = Color(1, 0.2, 0.2, 1)
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+[node name="EnemyDisplay" type="Sprite2D" parent="Carousel"]
+position = Vector2(0, -110)
+scale = Vector2(1.5, 1.5)
 
 [node name="LevelInfo" type="VBoxContainer" parent="Carousel"]
 layout_mode = 1
@@ -53,63 +162,64 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -200.0
-offset_top = 100.0
+offset_top = 50.0
 offset_right = 200.0
-offset_bottom = 250.0
+offset_bottom = 200.0
 grow_horizontal = 2
 theme_override_constants/separation = 10
 
 [node name="LevelName" type="Label" parent="Carousel/LevelInfo"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_colors/font_outline_color = Color(0.05, 0.0, 0.15, 1)
 text = "VAGUE 1"
 horizontal_alignment = 1
 
 [node name="StatusLabel" type="Label" parent="Carousel/LevelInfo"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 1, 0.5, 1)
+theme_override_colors/font_color = Color(0.2, 1.0, 0.5, 1)
 theme_override_font_sizes/font_size = 24
-text = "DÉBLOQUÉ"
+text = "EN COURS"
 horizontal_alignment = 1
 
 [node name="RewardLabel" type="Label" parent="Carousel/LevelInfo"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.8, 0, 1)
-theme_override_font_sizes/font_size = 24
-text = "Récompense : 100 💎"
+theme_override_colors/font_color = Color(1, 0.75, 0, 1)
+theme_override_font_sizes/font_size = 22
+text = "💎 100 croquettes"
 horizontal_alignment = 1
 
 [node name="BtnPrev" type="Button" parent="Carousel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -320.0
-offset_top = -40.0
-offset_right = -240.0
-offset_bottom = 40.0
-grow_horizontal = 2
+offset_top = -120.0
+offset_right = -230.0
+offset_bottom = -20.0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
-text = "<"
+theme_override_styles/normal = SubResource("StyleBoxFlat_nav")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nav")
+text = "‹"
 
 [node name="BtnNext" type="Button" parent="Carousel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 240.0
-offset_top = -40.0
+offset_left = 230.0
+offset_top = -120.0
 offset_right = 320.0
-offset_bottom = 40.0
-grow_horizontal = 2
+offset_bottom = -20.0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
-text = ">"
+theme_override_styles/normal = SubResource("StyleBoxFlat_nav")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nav")
+text = "›"
 
 [node name="PlayButton" type="Button" parent="."]
 layout_mode = 1
@@ -118,27 +228,35 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -150.0
-offset_top = -320.0
-offset_right = 150.0
-offset_bottom = -220.0
+offset_left = -170.0
+offset_top = -300.0
+offset_right = 170.0
+offset_bottom = -205.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 48
-text = "ATTAQUER"
+z_index = 2
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_play")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_colors/font_outline_color = Color(0.3, 0.05, 0.0, 1)
+text = "⚔  ATTAQUER"
 
 [node name="UpgradeButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = -150.0
-offset_right = 330.0
-offset_bottom = -50.0
+offset_left = 40.0
+offset_top = -170.0
+offset_right = 280.0
+offset_bottom = -85.0
 grow_vertical = 0
-theme_override_font_sizes/font_size = 32
-text = "AMÉLIORER"
+z_index = 2
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_colors/font_color = Color(0.85, 0.65, 1.0, 1)
+text = "🛒 AMÉLIORER"
 
 [node name="MissionButton" type="Button" parent="."]
 layout_mode = 1
@@ -147,21 +265,25 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -330.0
-offset_top = -150.0
-offset_right = -50.0
-offset_bottom = -50.0
+offset_left = -280.0
+offset_top = -170.0
+offset_right = -40.0
+offset_bottom = -85.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_font_sizes/font_size = 32
-text = "MISSIONS"
+z_index = 2
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_colors/font_color = Color(0.85, 0.65, 1.0, 1)
+text = "📋 MISSIONS"
 
 [node name="TopBar" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 100.0
+offset_bottom = 95.0
 grow_horizontal = 2
+z_index = 5
 theme_override_styles/panel = SubResource("StyleBoxFlat_header")
 
 [node name="CheeseLabel" type="Label" parent="TopBar"]
@@ -169,13 +291,14 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 30.0
-offset_top = -25.0
-offset_right = 330.0
-offset_bottom = 25.0
+offset_left = 25.0
+offset_top = -22.0
+offset_right = 350.0
+offset_bottom = 22.0
 grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "Croquettes : 0"
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+text = "🍪 0"
 vertical_alignment = 1
 
 [node name="SettingsButton" type="Button" parent="TopBar"]
@@ -185,12 +308,13 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -35.0
-offset_right = -20.0
-offset_bottom = 35.0
+offset_left = -95.0
+offset_top = -32.0
+offset_right = -15.0
+offset_bottom = 32.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_font_sizes/font_size = 34
 text = "⚙"
 
 [node name="StatsButton" type="Button" parent="TopBar"]
@@ -200,12 +324,13 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -35.0
-offset_right = -110.0
-offset_bottom = 35.0
+offset_left = -210.0
+offset_top = -32.0
+offset_right = -105.0
+offset_bottom = 32.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_font_sizes/font_size = 34
 text = "📊"
 
 [node name="AchievementsButton" type="Button" parent="TopBar"]
@@ -215,12 +340,13 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -35.0
-offset_right = -230.0
-offset_bottom = 35.0
+offset_left = -325.0
+offset_top = -32.0
+offset_right = -220.0
+offset_bottom = 32.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_font_sizes/font_size = 34
 text = "🏆"
 
 [node name="UILYR" type="CanvasLayer" parent="."]
@@ -235,6 +361,9 @@ visible = false
 visible = false
 
 [node name="StatsUI" parent="UILYR" instance=ExtResource("5_stats")]
+visible = false
+
+[node name="CatPilotUI" parent="UILYR" instance=ExtResource("6_catpilot")]
 visible = false
 
 [node name="AchievementsPanel" type="Control" parent="UILYR"]
@@ -253,20 +382,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.533)
+color = Color(0, 0, 0, 0.6)
 
 [node name="Panel" type="Panel" parent="UILYR/AchievementsPanel"]
-custom_minimum_size = Vector2(300, 300)
+custom_minimum_size = Vector2(320, 320)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -150.0
-offset_right = 150.0
-offset_bottom = 150.0
+offset_left = -160.0
+offset_top = -160.0
+offset_right = 160.0
+offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -289,7 +418,7 @@ anchor_bottom = 1.0
 offset_left = 12.0
 offset_top = 56.0
 offset_right = -12.0
-offset_bottom = -60.0
+offset_bottom = -58.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -305,7 +434,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = -52.0
+offset_top = -50.0
 offset_right = -20.0
 offset_bottom = -12.0
 grow_horizontal = 2
@@ -321,3 +450,4 @@ text = "✕ Fermer"
 [connection signal="pressed" from="TopBar/StatsButton" to="." method="_on_stats_button_pressed"]
 [connection signal="pressed" from="TopBar/AchievementsButton" to="." method="_on_achievements_button_pressed"]
 [connection signal="pressed" from="UILYR/AchievementsPanel/Panel/CloseButton" to="UILYR/AchievementsPanel" method="hide"]
+[connection signal="pressed" from="CockpitZone/PiloteButton" to="." method="_on_pilote_button_pressed"]

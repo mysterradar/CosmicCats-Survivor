@@ -38,7 +38,9 @@ var difficulty_mult = 1.0
 var current_phase: Phase = Phase.WAVE
 var wave_count: int = 1
 const MAX_WAVES = 20
-var wave_duration: float = 70.0
+var wave_duration: float = 40.0
+var wave_kill_count: int = 0
+var wave_kill_target: int = 20
 
 var combo_count = 0
 var combo_timer = 0.0
@@ -72,7 +74,8 @@ func _ready():
 func setup_world_visuals():
 	var level := 1
 	if GlobalManager: level = GlobalManager.current_selected_level
-	wave_duration = max(30.0, 70.0 - wave_count * 2.0)
+	wave_duration = max(20.0, 40.0 - wave_count * 1.0)
+	wave_kill_target = 15 + wave_count * 3
 	if planet_sprite: planet_sprite.visible = false
 	var hue = fmod(level * 0.13, 1.0)
 	if space_bg: space_bg.color = Color.from_hsv(hue, 0.4, 0.03)
@@ -94,26 +97,38 @@ func _process(delta):
 		_: pass
 
 func _process_wave(delta):
-	if fmod(time_elapsed, 30.0) < delta:
-		difficulty_mult  += 0.3
-		enemy_spawn_rate  = max(0.15, enemy_spawn_rate * 0.85)
+	if fmod(time_elapsed, 20.0) < delta:
+		difficulty_mult  += 0.2
+		enemy_spawn_rate  = max(0.15, enemy_spawn_rate * 0.88)
 		spawn_timer.wait_time = enemy_spawn_rate
-	if time_elapsed >= wave_duration * 0.9:
+	if time_elapsed >= wave_duration * 0.85:
 		if boss_warning and not boss_warning.visible and _wave_has_boss(wave_count):
 			boss_warning.text = "⚠ BOSS EN APPROCHE!"
 			boss_warning.visible = true
 			var tw = create_tween().set_loops(6)
 			tw.tween_property(boss_warning, "modulate:a", 0.3, 0.4)
 			tw.tween_property(boss_warning, "modulate:a", 1.0, 0.4)
-	if time_elapsed >= wave_duration:
+	_update_wave_hud()
+	if wave_kill_count >= wave_kill_target or time_elapsed >= wave_duration:
 		_end_wave()
 
 func _end_wave():
+	if current_phase != Phase.WAVE: return
+	current_phase = Phase.WAVE_COMPLETE
 	spawn_timer.stop()
 	if _wave_has_boss(wave_count):
 		_start_boss_phase()
 	else:
-		_advance_wave()
+		_show_wave_complete_then_advance()
+
+func _show_wave_complete_then_advance():
+	if boss_warning:
+		boss_warning.text = "✓ VAGUE %d TERMINÉE" % wave_count
+		boss_warning.modulate = Color(0.4, 1.0, 0.5, 1)
+		boss_warning.visible = true
+	await get_tree().create_timer(2.0).timeout
+	if boss_warning: boss_warning.visible = false
+	if current_phase != Phase.DEFEAT: _advance_wave()
 
 func _wave_has_boss(wave: int) -> bool:
 	return wave in [5, 10, 15, 20]
@@ -182,7 +197,9 @@ func _advance_wave():
 	if CatManager: CatManager.add_xp(20)
 	difficulty_mult   = 1.0 + (wave_count - 1) * 0.15
 	enemy_spawn_rate  = max(0.15, 1.0 - wave_count * 0.04)
-	wave_duration     = max(30.0, 70.0 - wave_count * 2.0)
+	wave_duration     = max(20.0, 40.0 - wave_count * 1.0)
+	wave_kill_count   = 0
+	wave_kill_target  = 15 + wave_count * 3
 	time_elapsed      = 0.0
 	spawn_timer.wait_time = enemy_spawn_rate
 	spawn_timer.start()
@@ -190,7 +207,11 @@ func _advance_wave():
 	_update_wave_hud()
 
 func _update_wave_hud():
-	if wave_label: wave_label.text = "Vague %d/%d" % [wave_count, MAX_WAVES]
+	if wave_label:
+		if current_phase == Phase.WAVE:
+			wave_label.text = "Vague %d/%d  —  %d/%d ennemis" % [wave_count, MAX_WAVES, wave_kill_count, wave_kill_target]
+		else:
+			wave_label.text = "Vague %d/%d" % [wave_count, MAX_WAVES]
 
 func _on_spawn_timer_timeout():
 	if current_phase == Phase.WAVE: spawn_enemy()
@@ -222,6 +243,7 @@ func spawn_enemy():
 func _on_enemy_died(enemy: Node):
 	var pos = enemy.global_position if is_instance_valid(enemy) else Vector2.ZERO
 	enemy_killed.emit(pos)
+	wave_kill_count += 1
 	# Passive kill_explosion
 	if _kill_explosion_active:
 		var expl = explosion_scene.instantiate()

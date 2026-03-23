@@ -20,8 +20,22 @@ var data = {
 		"games_played": 0,
 		"best_score": 0,
 		"play_time": 0.0
-	}
+	},
+	"cats":       {},   # rempli par migration
+	"cosmic_fur": 0,
+	"active_cat": "minou_cosmique",
 }
+
+func _default_cats_data() -> Dictionary:
+	return {
+		"minou_cosmique":    { "unlocked": true,  "xp": 0, "level": 1, "stage": 1 },
+		"felix_furieux":     { "unlocked": true,  "xp": 0, "level": 1, "stage": 1 },
+		"comete":            { "unlocked": false, "xp": 0, "level": 1, "stage": 1 },
+		"capitaine_sardine": { "unlocked": false, "xp": 0, "level": 1, "stage": 1 },
+		"zero_gravite":      { "unlocked": false, "xp": 0, "level": 1, "stage": 1 },
+		"nebula":            { "unlocked": false, "xp": 0, "level": 1, "stage": 1 },
+		"astro":             { "unlocked": false, "xp": 0, "level": 1, "stage": 1 },
+	}
 
 func _ready():
 	load_game()
@@ -62,6 +76,23 @@ func load_game():
 						data["stats"]["play_time"] = 0.0
 					else:
 						data["stats"]["play_time"] = float(data["stats"]["play_time"])
+				# Migration v0.5 — chats pilotes
+				if not data.has("cats") or data["cats"].is_empty():
+					data["cats"] = _default_cats_data()
+				else:
+					# Ajouter les nouveaux chats manquants
+					for cat_id in _default_cats_data():
+						if not data["cats"].has(cat_id):
+							data["cats"][cat_id] = _default_cats_data()[cat_id]
+				if not data.has("cosmic_fur"):  data["cosmic_fur"] = 0
+				if not data.has("active_cat"):  data["active_cat"] = "minou_cosmique"
+				# Migration wave_reached
+				if not data["stats"].has("wave_reached"): data["stats"]["wave_reached"] = 0
+				# Migration nouvelles upgrades shop
+				for k in ["piercing_bullet","missile_cluster","plasma_overcharge",
+						  "xp_boost_perm","fur_drop","passive_amp",
+						  "hull_reinforcement","engine_boost","weapon_slot"]:
+					if not data["perm_upgrades"].has(k): data["perm_upgrades"][k] = 0
 	else:
 		save_game()
 

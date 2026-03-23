@@ -36,9 +36,11 @@ func _make_card(cat_id: String) -> Control:
 	var vbox = VBoxContainer.new()
 	card.add_child(vbox)
 
-	# Sprite
+	# Sprite — taille fixe pour ne pas faire déborder la carte
 	var sprite = TextureRect.new()
-	sprite.custom_minimum_size = Vector2(100, 100)
+	sprite.custom_minimum_size = Vector2(120, 120)
+	sprite.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	sprite.size_flags_vertical  = Control.SIZE_SHRINK_CENTER
 	sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	var stage_sprites = cat_def.get("sprite_stage", [])
 	if stage_sprites.size() >= stage:

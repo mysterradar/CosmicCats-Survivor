@@ -115,9 +115,10 @@ theme_override_constants/separation = 6
 
 [node name="CatSprite" type="TextureRect" parent="CockpitZone"]
 layout_mode = 2
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(72, 72)
 size_flags_horizontal = 4
-stretch_mode = 2
+size_flags_vertical = 4
+stretch_mode = 5
 
 [node name="CatNameLabel" type="Label" parent="CockpitZone"]
 layout_mode = 2

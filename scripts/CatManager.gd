@@ -177,6 +177,7 @@ func add_cosmic_fur(amount: int):
 	if not SaveManager: return
 	var mult = 1.0 + SaveManager.data.get("perm_upgrades", {}).get("fur_drop", 0) * 0.10
 	SaveManager.data["cosmic_fur"] += int(amount * mult)
+	if MissionManager: MissionManager.track_stat("collect_fur", int(amount * mult))
 	SaveManager.save_game()
 
 func get_active_bonuses() -> Dictionary:

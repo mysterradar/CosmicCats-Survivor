@@ -227,6 +227,7 @@ func take_damage(amount: float):
 	if shield_active:
 		shield_active = false
 		if shield_ring: shield_ring.visible = false
+		if MissionManager: MissionManager.track_stat("use_shield")
 		return
 	current_health -= amount
 	# Passive low_hp_rage
@@ -249,6 +250,7 @@ func take_damage(amount: float):
 
 func collect_kibble(amount: int):
 	run_kibble += amount
+	if MissionManager: MissionManager.track_stat("collect_kibble", amount)
 
 func add_xp(amount: int):
 	current_xp += amount

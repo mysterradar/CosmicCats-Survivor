@@ -67,6 +67,31 @@ func _make_card(cat_id: String) -> Control:
 	level_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(level_lbl)
 
+	# Barre XP
+	if level >= 30:
+		var max_lbl = Label.new()
+		max_lbl.text = "XP : MAX"
+		max_lbl.add_theme_font_size_override("font_size", 9)
+		max_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		max_lbl.add_theme_color_override("font_color", Color(1.0, 0.8, 0.2))
+		vbox.add_child(max_lbl)
+	else:
+		var xp_cur    = CatManager.get_cat_xp(cat_id)
+		var xp_needed = CatManager.xp_needed_for_level(level)
+
+		var xp_bar = ProgressBar.new()
+		xp_bar.min_value = 0
+		xp_bar.max_value = xp_needed
+		xp_bar.value     = xp_cur
+		xp_bar.custom_minimum_size = Vector2(160, 12)
+		vbox.add_child(xp_bar)
+
+		var xp_lbl = Label.new()
+		xp_lbl.text = "XP : %d / %d" % [xp_cur, xp_needed]
+		xp_lbl.add_theme_font_size_override("font_size", 9)
+		xp_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		vbox.add_child(xp_lbl)
+
 	# Passive
 	var passive_lbl = Label.new()
 	passive_lbl.text = cat_def["description"]

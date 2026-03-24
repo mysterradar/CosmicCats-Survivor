@@ -35,8 +35,7 @@ func _setup_visual():
 	if not _sprite_tex:
 		_sprite_tex = load("res://assets/sprites/boss_mouse_mech.png")
 	var sp = Sprite2D.new(); sp.texture = _sprite_tex; sp.scale = Vector2(0.60, 0.60)
-	var mat = ShaderMaterial.new(); mat.shader = load("res://assets/bg_remove.gdshader")
-	sp.material = mat; add_child(sp)
+	add_child(sp)
 
 func _physics_process(delta):
 	if is_dead or not player: return

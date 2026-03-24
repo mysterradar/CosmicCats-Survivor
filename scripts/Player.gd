@@ -103,11 +103,6 @@ func setup_ship_visual(lv: int):
 	sprite.texture = _ship_textures[tex_idx]
 	sprite.scale = s
 
-	# Tous les sprites ont un fond blanc ou damier baked-in → shader de suppression fond
-	var mat = ShaderMaterial.new()
-	mat.shader = load("res://assets/bg_remove.gdshader")
-	sprite.material = mat
-
 	ship_visual.add_child(sprite)
 
 	# Anneau bouclier (masqué par défaut)

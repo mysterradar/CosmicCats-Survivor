@@ -178,6 +178,7 @@ func _process_boss_fight(_delta):
 
 func _on_boss_died():
 	update_score(10000)
+	if MissionManager: MissionManager.track_stat("boss_kill")
 	if boss_health_bar: boss_health_bar.visible = false
 	if CatManager:
 		CatManager.add_xp(50)
@@ -198,6 +199,7 @@ func _on_boss_died():
 
 func _advance_wave():
 	wave_count += 1
+	if MissionManager: MissionManager.track_stat("reach_wave", wave_count, "max")
 	if CatManager: CatManager.add_xp(20)
 	difficulty_mult   = 1.0 + (wave_count - 1) * 0.15
 	enemy_spawn_rate  = max(0.15, 1.0 - wave_count * 0.04)

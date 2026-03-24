@@ -1,5 +1,7 @@
 extends Area2D
 
+const MINI_SCENE = preload("res://scenes/SardineMissile.tscn")
+
 @export var speed: float = 400.0
 @export var damage: float = 25.0
 @export var turn_speed: float = 5.0 # Vitesse de rotation pour le guidage
@@ -35,11 +37,13 @@ func _on_body_entered(body):
 		explode()
 
 func explode():
+	if not is_inside_tree():
+		return
 	if _cluster:
 		var scene = get_tree().current_scene
 		var base_dir = velocity.normalized() if velocity != Vector2.ZERO else Vector2.UP
 		for angle_deg in [-30, 30]:
-			var mini = load("res://scenes/SardineMissile.tscn").instantiate()
+			var mini = MINI_SCENE.instantiate()
 			mini._cluster = false          # pas de récursion
 			scene.add_child(mini)
 			mini.global_position = global_position

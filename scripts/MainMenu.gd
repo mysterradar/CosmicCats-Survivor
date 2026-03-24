@@ -71,7 +71,7 @@ func update_ui():
 				idle.tween_property(cat_sprite, "scale", Vector2(0.97, 0.97), 0.8).set_trans(Tween.TRANS_SINE)
 
 func update_level_view():
-	level_name_lbl.text = "VAGUE  %d" % current_view_level
+	level_name_lbl.text = "NIVEAU  %d" % current_view_level
 	if GlobalManager:
 		reward_lbl.text = "💎 %d croquettes" % GlobalManager.get_level_reward()
 	update_enemy_visual()

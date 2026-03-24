@@ -176,6 +176,14 @@ func _process_boss_fight(_delta):
 	else:
 		if boss_health_bar: boss_health_bar.visible = false
 
+func _get_max_wave_for_level() -> int:
+	var level = 1
+	if GlobalManager: level = GlobalManager.current_selected_level
+	if level <= 2:  return 5
+	elif level <= 5: return 10
+	elif level <= 8: return 15
+	else:            return 20
+
 func _on_boss_died():
 	update_score(10000)
 	if MissionManager: MissionManager.track_stat("boss_kill")
@@ -187,7 +195,7 @@ func _on_boss_died():
 	if SaveManager:
 		SaveManager.data["stats"]["wave_reached"] = max(
 			SaveManager.data["stats"].get("wave_reached", 0), wave_count)
-	if wave_count >= MAX_WAVES:
+	if wave_count >= _get_max_wave_for_level():
 		current_phase = Phase.COMPLETE
 		_finalize_stats(true)
 		await get_tree().create_timer(2.0).timeout
@@ -214,10 +222,11 @@ func _advance_wave():
 
 func _update_wave_hud():
 	if wave_label:
+		var max_wave = _get_max_wave_for_level()
 		if current_phase == Phase.WAVE:
-			wave_label.text = "Vague %d/%d  —  %d/%d ennemis" % [wave_count, MAX_WAVES, wave_kill_count, wave_kill_target]
+			wave_label.text = "Vague %d/%d  —  %d/%d ennemis" % [wave_count, max_wave, wave_kill_count, wave_kill_target]
 		else:
-			wave_label.text = "Vague %d/%d" % [wave_count, MAX_WAVES]
+			wave_label.text = "Vague %d/%d" % [wave_count, max_wave]
 
 func _on_spawn_timer_timeout():
 	if current_phase == Phase.WAVE: spawn_enemy()

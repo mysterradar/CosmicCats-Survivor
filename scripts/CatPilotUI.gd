@@ -29,7 +29,7 @@ func _make_card(cat_id: String) -> Control:
 	var is_active = CatManager.get_active_cat_id() == cat_id
 
 	var card = PanelContainer.new()
-	card.custom_minimum_size = Vector2(180, 280)
+	card.custom_minimum_size = Vector2(180, 360)
 	if is_active:
 		card.add_theme_stylebox_override("panel", _highlighted_style())
 
@@ -38,7 +38,7 @@ func _make_card(cat_id: String) -> Control:
 
 	# Sprite — taille fixe pour ne pas faire déborder la carte
 	var sprite = TextureRect.new()
-	sprite.custom_minimum_size = Vector2(120, 120)
+	sprite.custom_minimum_size = Vector2(120, 180)
 	sprite.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	sprite.size_flags_vertical  = Control.SIZE_SHRINK_CENTER
 	sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED

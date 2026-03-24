@@ -105,7 +105,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -140.0
-offset_top = -510.0
+offset_top = -580.0
 offset_right = 140.0
 offset_bottom = -310.0
 grow_horizontal = 2
@@ -115,7 +115,7 @@ theme_override_constants/separation = 6
 
 [node name="CatSprite" type="TextureRect" parent="CockpitZone"]
 layout_mode = 2
-custom_minimum_size = Vector2(72, 72)
+custom_minimum_size = Vector2(90, 135)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 stretch_mode = 5

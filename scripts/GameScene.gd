@@ -262,8 +262,10 @@ func _on_enemy_died(enemy: Node):
 		SaveManager.data["stats"]["kills"] += 1
 	if CatManager: CatManager.add_xp(5)
 	# Drop Poils Cosmiques (élites)
-	if is_instance_valid(enemy) and enemy.get("is_elite") and randf() < 0.05:
-		if CatManager: CatManager.add_cosmic_fur(randi_range(1, 3))
+	if is_instance_valid(enemy) and enemy.get("is_elite"):
+		if MissionManager: MissionManager.track_stat("kill_elites", 1)
+		if randf() < 0.05:
+			if CatManager: CatManager.add_cosmic_fur(randi_range(1, 3))
 
 func _on_player_died():
 	current_phase = Phase.DEFEAT

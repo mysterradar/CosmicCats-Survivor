@@ -41,12 +41,12 @@ func setup_mouse_visual():
 	match enemy_type:
 		Type.SCOUT:
 			speed = 220.0; max_health = 10.0; damage = 5.0
-			_add_sprite(_textures[0], Vector2(0.18, 0.18))
+			_add_sprite(_textures[0], Vector2(0.5, 0.5))
 		Type.NORMAL:
-			_add_sprite(_textures[1], Vector2(0.20, 0.20))
+			_add_sprite(_textures[1], Vector2(0.5, 0.5))
 		Type.WARRIOR:
 			speed = 60.0; max_health = 80.0; damage = 20.0
-			_add_sprite(_textures[2], Vector2(0.22, 0.22))
+			_add_sprite(_textures[2], Vector2(0.55, 0.55))
 
 	if is_elite:
 		max_health *= 5; scale *= 1.5; modulate = Color(1.5, 1.2, 0)
@@ -80,6 +80,7 @@ func _physics_process(delta):
 
 func take_damage(amount: float):
 	current_health -= amount
+	if MissionManager: MissionManager.track_stat("deal_damage", int(amount))
 	modulate = Color(5, 5, 5)
 	await get_tree().create_timer(0.05).timeout
 	modulate = Color(1, 1, 1)

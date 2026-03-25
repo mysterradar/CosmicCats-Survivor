@@ -44,6 +44,7 @@ func save_game():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(data))
+		file.close()
 
 func load_game():
 	if FileAccess.file_exists(SAVE_PATH):

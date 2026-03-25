@@ -12,8 +12,8 @@ extends Control
 @onready var stats_ui        = $UILYR/StatsUI
 @onready var achievements_panel = $UILYR/AchievementsPanel
 @onready var cat_sprite    = $CockpitZone/CatSprite
-@onready var cat_name_lbl  = $CockpitZone/CatNameLabel
-@onready var cat_xp_bar    = $CockpitZone/CatXPBar
+@onready var cat_name_lbl  = $CockpitZone/InfoVBox/CatNameLabel
+@onready var cat_xp_bar    = $CockpitZone/InfoVBox/CatXPBar
 @onready var cat_pilot_ui  = $UILYR/CatPilotUI
 
 var current_view_level = 1

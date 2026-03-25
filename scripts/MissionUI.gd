@@ -44,9 +44,19 @@ func refresh_list():
 		prog_bar.custom_minimum_size = Vector2(0, 10)
 		prog_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		
+		var reward_lbl = Label.new()
+		var fur = m.get("reward_fur", 0)
+		if fur > 0:
+			reward_lbl.text = "🍪 %d  🪶 %d" % [m.reward, fur]
+		else:
+			reward_lbl.text = "🍪 %d" % m.reward
+		reward_lbl.add_theme_font_size_override("font_size", 14)
+		reward_lbl.modulate = Color(1.0, 0.85, 0.2)
+
 		v_box.add_child(title_lbl)
 		v_box.add_child(progress_lbl)
 		v_box.add_child(prog_bar)
+		v_box.add_child(reward_lbl)
 		
 		var action_btn = Button.new()
 		action_btn.custom_minimum_size = Vector2(150, 50)

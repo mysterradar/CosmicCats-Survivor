@@ -63,12 +63,23 @@
 - ✅ **Fin de partie par niveau** : victoire déclenchée au boss du niveau sélectionné (level 1-2→wave5, 3-5→wave10, 6-8→wave15, 9-10→wave20) + HUD Vague X/N adapté
 - ✅ **NIVEAU vs VAGUE** : menu principal renommé "NIVEAU X" pour éviter la confusion avec les vagues in-game
 - ✅ **Shader bg_remove retiré** : tous les sprites PNG sont déjà RGBA (transparence native). Le shader supprimait des pixels valides (cockpit, fourrure, corps boss)
-- ✅ **bg_remove seuil 0.30→0.12** : conservé au cas où le shader serait réutilisé sur sprites sans alpha
 - ✅ **DamageNumber tween** : TRANS_OUT → TRANS_SINE + EASE_OUT (n'existe pas en Godot 4)
 - ✅ **CatPilotUI mobile** : panel adaptatif 96% écran (était fixe 700×500)
-- ✅ **Sprite pilote portrait** : ratio 2:3 exact (90×135 menu, 120×180 carousel) pour portrait 1024×1536
+- ✅ **Sprite pilote ratio 2:3** : 90×135 menu, 80×120 carousel — wrapper Control pour bloquer l'expansion dans VBox
+
+### 🐱 Sprites Pilotes Individuels (post-v0.6 — Mars 2026)
+- ✅ **Dossier** `assets/sprites/cats/` créé
+- ✅ **Champ `sprite_menu`** ajouté dans CatManager (image dédiée menu principal 90×135)
+- ✅ **MainMenu** : utilise `sprite_menu` en priorité (fallback `sprite_stage[0]`)
+- ✅ **4/7 chats** avec sprites individuels :
+  - Félix Furieux → `felix_menu/carousel`
+  - Capitaine Sardine → `capitaine_menu/carousel`
+  - Nébula → `nebula_menu/carousel`
+  - Astro → `astro_menu/carousel`
+- ⏳ **3/7 en attente** : Minou Cosmique, Comète, Zéro Gravité
 
 ## 🚀 Prochaines Étapes
+- [ ] **Sprites pilotes manquants** : Minou Cosmique, Comète, Zéro Gravité (format 80×120 carousel + 90×135 menu)
 - [ ] **Audio** : Sons UI + musique d'ambiance
 - [ ] **Tutorial / Onboarding** : Guide initial pour nouveaux joueurs
 - [ ] Variantes visuelles souris (Scout plus rapide/petite, Guerrière plus grande).

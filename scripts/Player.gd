@@ -88,7 +88,7 @@ func setup_ship_visual(lv: int):
 	var s := Vector2(0.30, 0.30)
 	if lv >= 15:   tier = 3; s = Vector2(0.35, 0.35)
 	elif lv >= 10: tier = 2; s = Vector2(0.26, 0.26)
-	elif lv >= 5:  tier = 1; s = Vector2(0.22, 0.22)
+	elif lv >= 5:  tier = 1; s = Vector2(0.34, 0.34)
 
 	if _ship_textures.is_empty():
 		_ship_textures = [

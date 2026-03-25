@@ -36,16 +36,19 @@ func _make_card(cat_id: String) -> Control:
 	var vbox = VBoxContainer.new()
 	card.add_child(vbox)
 
-	# Sprite — taille fixe pour ne pas faire déborder la carte
+	# Sprite — conteneur fixe 80×120 pour empêcher l'expansion dans le VBox
+	var sprite_holder = Control.new()
+	sprite_holder.custom_minimum_size = Vector2(80, 120)
+	sprite_holder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	sprite_holder.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
 	var sprite = TextureRect.new()
-	sprite.custom_minimum_size = Vector2(80, 120)
-	sprite.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	sprite.size_flags_vertical  = Control.SIZE_SHRINK_CENTER
+	sprite.set_anchors_preset(Control.PRESET_FULL_RECT)
 	sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	var stage_sprites = cat_def.get("sprite_stage", [])
 	if stage_sprites.size() >= stage:
 		sprite.texture = load(stage_sprites[stage - 1])
-	vbox.add_child(sprite)
+	sprite_holder.add_child(sprite)
+	vbox.add_child(sprite_holder)
 
 	# Nom + rareté
 	var name_lbl = Label.new()

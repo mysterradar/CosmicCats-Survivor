@@ -60,9 +60,13 @@ func update_ui():
 			cat_xp_bar.max_value = needed
 			cat_xp_bar.value     = xp
 		if cat_sprite:
-			var stage_sprites = cat_def.get("sprite_stage", [])
-			if stage_sprites.size() >= stage:
-				cat_sprite.texture = load(stage_sprites[stage - 1])
+			var menu_sprite = cat_def.get("sprite_menu", "")
+			if menu_sprite != "" and ResourceLoader.exists(menu_sprite):
+				cat_sprite.texture = load(menu_sprite)
+			else:
+				var stage_sprites = cat_def.get("sprite_stage", [])
+				if stage_sprites.size() >= stage:
+					cat_sprite.texture = load(stage_sprites[stage - 1])
 			# Idle animation (only start once)
 			if not cat_sprite.has_meta("anim_started"):
 				cat_sprite.set_meta("anim_started", true)

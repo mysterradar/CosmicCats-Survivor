@@ -6,10 +6,11 @@ const CATS = {
 	"minou_cosmique": {
 		"name": "Minou Cosmique", "rarity": "COMMON", "unlock_cost": 0,
 		"description": "Le chat de base. Fiable et courageux.",
+		"sprite_menu": "res://assets/sprites/cats/minou_menu.png",
 		"sprite_stage": [
-			"res://assets/sprites/cat_stage1.png",
-			"res://assets/sprites/cat_stage2.png",
-			"res://assets/sprites/cat_stage3.png",
+			"res://assets/sprites/cats/minou_carousel.png",
+			"res://assets/sprites/cats/minou_carousel.png",
+			"res://assets/sprites/cats/minou_carousel.png",
 		],
 		"passive_id": "bonus_bullet",
 		"damage_per_level": 0.02, "speed_per_level": 0.01, "fire_rate_per_level": 0.015,
@@ -17,10 +18,11 @@ const CATS = {
 	"felix_furieux": {
 		"name": "Félix Furieux", "rarity": "COMMON", "unlock_cost": 0,
 		"description": "Encore plus fort quand il est blessé.",
+		"sprite_menu": "res://assets/sprites/cats/felix_menu.png",
 		"sprite_stage": [
-			"res://assets/sprites/cat_stage1.png",
-			"res://assets/sprites/cat_stage2.png",
-			"res://assets/sprites/cat_stage3.png",
+			"res://assets/sprites/cats/felix_carousel.png",
+			"res://assets/sprites/cats/felix_carousel.png",
+			"res://assets/sprites/cats/felix_carousel.png",
 		],
 		"passive_id": "low_hp_rage",
 		"damage_per_level": 0.025, "speed_per_level": 0.008, "fire_rate_per_level": 0.010,
@@ -28,10 +30,11 @@ const CATS = {
 	"comete": {
 		"name": "Comète", "rarity": "RARE", "unlock_cost": 500,
 		"description": "Laisse une traînée de feu dans son sillage.",
+		"sprite_menu": "res://assets/sprites/cats/comete_menu.png",
 		"sprite_stage": [
-			"res://assets/sprites/cat_stage1.png",
-			"res://assets/sprites/cat_stage2.png",
-			"res://assets/sprites/cat_stage3.png",
+			"res://assets/sprites/cats/comete_carousel.png",
+			"res://assets/sprites/cats/comete_carousel.png",
+			"res://assets/sprites/cats/comete_carousel.png",
 		],
 		"passive_id": "fire_trail",
 		"damage_per_level": 0.018, "speed_per_level": 0.015, "fire_rate_per_level": 0.012,
@@ -39,10 +42,11 @@ const CATS = {
 	"capitaine_sardine": {
 		"name": "Capitaine Sardine", "rarity": "RARE", "unlock_cost": 500,
 		"description": "Lance des missiles sardines automatiquement.",
+		"sprite_menu": "res://assets/sprites/cats/capitaine_menu.png",
 		"sprite_stage": [
-			"res://assets/sprites/cat_stage1.png",
-			"res://assets/sprites/cat_stage2.png",
-			"res://assets/sprites/cat_stage3.png",
+			"res://assets/sprites/cats/capitaine_carousel.png",
+			"res://assets/sprites/cats/capitaine_carousel.png",
+			"res://assets/sprites/cats/capitaine_carousel.png",
 		],
 		"passive_id": "auto_missile",
 		"damage_per_level": 0.015, "speed_per_level": 0.008, "fire_rate_per_level": 0.020,
@@ -50,10 +54,11 @@ const CATS = {
 	"zero_gravite": {
 		"name": "Zéro Gravité", "rarity": "LEGENDARY", "unlock_cost": 2000,
 		"description": "Son bouclier se régénère deux fois plus vite.",
+		"sprite_menu": "res://assets/sprites/cats/zero_menu.png",
 		"sprite_stage": [
-			"res://assets/sprites/cat_stage1.png",
-			"res://assets/sprites/cat_stage2.png",
-			"res://assets/sprites/cat_stage3.png",
+			"res://assets/sprites/cats/zero_carousel.png",
+			"res://assets/sprites/cats/zero_carousel.png",
+			"res://assets/sprites/cats/zero_carousel.png",
 		],
 		"passive_id": "fast_shield",
 		"damage_per_level": 0.015, "speed_per_level": 0.010, "fire_rate_per_level": 0.015,
@@ -61,10 +66,11 @@ const CATS = {
 	"nebula": {
 		"name": "Nébula", "rarity": "LEGENDARY", "unlock_cost": 2000,
 		"description": "Chaque ennemi vaincu explose.",
+		"sprite_menu": "res://assets/sprites/cats/nebula_menu.png",
 		"sprite_stage": [
-			"res://assets/sprites/cat_stage1.png",
-			"res://assets/sprites/cat_stage2.png",
-			"res://assets/sprites/cat_stage3.png",
+			"res://assets/sprites/cats/nebula_carousel.png",
+			"res://assets/sprites/cats/nebula_carousel.png",
+			"res://assets/sprites/cats/nebula_carousel.png",
 		],
 		"passive_id": "kill_explosion",
 		"damage_per_level": 0.020, "speed_per_level": 0.008, "fire_rate_per_level": 0.012,
@@ -72,10 +78,11 @@ const CATS = {
 	"astro": {
 		"name": "Astro", "rarity": "LEGENDARY", "unlock_cost": 2000,
 		"description": "Gagne 50% d'XP en plus sur son chat pilote.",
+		"sprite_menu": "res://assets/sprites/cats/astro_menu.png",
 		"sprite_stage": [
-			"res://assets/sprites/cat_stage1.png",
-			"res://assets/sprites/cat_stage2.png",
-			"res://assets/sprites/cat_stage3.png",
+			"res://assets/sprites/cats/astro_carousel.png",
+			"res://assets/sprites/cats/astro_carousel.png",
+			"res://assets/sprites/cats/astro_carousel.png",
 		],
 		"passive_id": "xp_boost",
 		"damage_per_level": 0.015, "speed_per_level": 0.012, "fire_rate_per_level": 0.015,

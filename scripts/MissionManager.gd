@@ -48,6 +48,7 @@ func save_missions():
 	var file = FileAccess.open("user://missions.json", FileAccess.WRITE)
 	if file:
 		file.store_string(JSON.stringify(missions))
+		file.close()
 
 func load_missions():
 	if FileAccess.file_exists("user://missions.json"):
